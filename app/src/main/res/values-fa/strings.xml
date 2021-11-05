@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mehdi Bia Bardar</string>
+    <string name="all">همه</string>
+    <string name="done">انجام شده</string>
+    <string name="shopping_lists">لیست خرید</string>
+    <string name="add_new_list">افزودن لیست جدید</string>
+    <string name="light">روشن</string>
+    <string name="dark">تاریک</string>
+    <string name="type_here_too_add_an_item">برای افزودن آینم اینجا کلیک کنید</string>
+</resources>

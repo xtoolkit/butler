@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="screen_padding_top">40dp</dimen>
+    <dimen name="screen_padding_horizontal">30dp</dimen>
+    <dimen name="screen_padding_bottom">20dp</dimen>
+
+    <dimen name="start_height">40dp</dimen>
+</resources>

@@ -1,0 +1,4 @@
+rootProject.name = "shopping"
+include ':app'
+include ':core'
+include ':suggestion'
