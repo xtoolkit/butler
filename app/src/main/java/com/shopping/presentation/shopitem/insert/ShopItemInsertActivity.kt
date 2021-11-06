@@ -3,6 +3,8 @@ package com.shopping.presentation.shopitem.insert
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -24,13 +26,17 @@ class ShopItemInsertActivity : AppCompatActivity() {
     private val adapter = EasyAdapter(ItemShopitemInsertBinding::inflate) { it: ShopItem ->
         shopitem = it
         input.setText(it.quantity!!.toString())
-        input.setOnKeyListener { _, _, _ ->
-            val data = input.text.toString()
-            viewModel.changeQuantity(it, if (data.isEmpty()) 0 else data.toInt())
-            false
-        }
+        input.requestFocus()
+        input.selectAll()
         add.setOnClickListener { _ -> viewModel.changeQuantity(it, it.quantity!! + 1) }
         remove.setOnClickListener { _ -> viewModel.changeQuantity(it, it.quantity!! - 1) }
+        input.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE && event == null) {
+                binding?.input?.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
     }
     private val domain: ShopItem
         get() = ShopItem(viewModel.items.value.size, binding!!.input.text.toString(), 0)
@@ -58,8 +64,14 @@ class ShopItemInsertActivity : AppCompatActivity() {
         binding.insertAll.setOnClickListener { viewModel.addAll() }
         binding.add.setOnClickListener {
             viewModel.addShopItem(domain)
-            (getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
-                .hideSoftInputFromWindow(binding.root.windowToken, 0)
+        }
+
+        binding.input.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE && event == null) {
+                viewModel.addShopItem(domain)
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
         }
     }
 

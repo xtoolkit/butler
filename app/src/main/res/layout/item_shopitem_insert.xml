@@ -54,6 +54,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="4dp"
                 android:background="@android:color/transparent"
+                android:imeOptions="actionDone|actionSend"
                 android:inputType="number"
                 android:textAlignment="center"
                 android:textSize="14sp"
