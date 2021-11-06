@@ -62,10 +62,11 @@ class ShopItemShowFragment : Fragment() {
             parentFragmentManager.setFragmentResult("openShopListMenu", bundleOf())
         }
 
-        parentFragmentManager.setFragmentResultListener("shopListChanged", this) { _, it ->
-            shoplistId = it.getInt("id")
-            viewModel.changeShopList(shoplistId)
-        }
+        parentFragmentManager
+            .setFragmentResultListener("shopListItemsChanged", viewLifecycleOwner) { _, it ->
+                shoplistId = it.getInt("id")
+                viewModel.changeShopList(shoplistId)
+            }
 
         binding.add.setOnClickListener {
             startActivity(
@@ -81,6 +82,6 @@ class ShopItemShowFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.reset()
-        parentFragmentManager.clearFragmentResultListener("shopListChanged")
+        parentFragmentManager.clearFragmentResultListener("shopListItemsChanged")
     }
 }

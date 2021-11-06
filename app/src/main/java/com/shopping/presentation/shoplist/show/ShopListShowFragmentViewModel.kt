@@ -17,11 +17,12 @@ class ShopListShowFragmentViewModel(private val getAllShopListUC: GetAllShopList
     val list = MutableStateFlow(listOf<ShopListShowUIItem>())
     private var select = 1
 
-    fun selectShopList(shopListShowUIItem: ShopListShowUIItem) = viewModelScope.launch {
-        trigger(REQUEST_CHANGE_SHOP_LIST, shopListShowUIItem.toDomain())
-        select = shopListShowUIItem.id
-        updateListUIState(list.value)
-    }
+    fun selectShopList(shopListShowUIItem: ShopListShowUIItem, onlyUiUpdate: Boolean = false) =
+        viewModelScope.launch {
+            if (!onlyUiUpdate) trigger(REQUEST_CHANGE_SHOP_LIST, shopListShowUIItem.toDomain())
+            select = shopListShowUIItem.id
+            updateListUIState(list.value)
+        }
 
     private suspend fun updateListUIState(input: List<ShopListShowUIItem>) {
         val output = input.map { it.copy() }

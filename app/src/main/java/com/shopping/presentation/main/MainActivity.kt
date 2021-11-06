@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity(), PanelsChildGestureRegionObserver.Gestu
         viewModel.on(CLOSE_PANELS) { overlappingPanels.closePanels() }
         viewModel.on(SHOW_SHOP_LIST_ITEMS) { it: Int ->
             supportFragmentManager.setFragmentResult("shopListChanged", bundleOf("id" to it))
+            supportFragmentManager.setFragmentResult("shopListItemsChanged", bundleOf("id" to it))
         }
         viewModel.start(shoplistId)
 

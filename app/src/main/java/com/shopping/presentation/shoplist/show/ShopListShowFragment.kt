@@ -57,10 +57,16 @@ class ShopListShowFragment : Fragment() {
             parentFragmentManager
                 .setFragmentResult("onSelectedShopListChange", bundleOf("id" to it.id))
         }
+
+        parentFragmentManager
+            .setFragmentResultListener("shopListChanged", viewLifecycleOwner) { _, it ->
+                viewModel.selectShopList(ShopListShowUIItem(it.getInt("id"), ""), true)
+            }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         viewModel.reset()
+        parentFragmentManager.clearFragmentResultListener("shopListChanged")
     }
 }
