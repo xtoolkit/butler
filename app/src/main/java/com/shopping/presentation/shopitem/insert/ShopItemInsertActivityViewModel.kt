@@ -32,7 +32,7 @@ class ShopItemInsertActivityViewModel(
         var task: Result<Any> = checkNewShopItemValidity(shopItem)
             .onFailure { trigger(SHOW_ALERT, SnackBarModel(it.message!!)) }
 
-        if (task.isSuccess) task = getShopItemUC(shoplist to shopItem)
+        if (task.isSuccess) task = getShopItemUC(shoplist to ShopItem(0, shopItem.name))
             .onSuccess { trigger(SHOW_ALERT, SnackBarModel("Item already exists.")) }
         else return@launch
 
