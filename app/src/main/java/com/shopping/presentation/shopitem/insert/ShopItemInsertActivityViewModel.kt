@@ -42,14 +42,16 @@ class ShopItemInsertActivityViewModel(
         }
     }
 
-    fun changeQuantity(shopItem: ShopItem, newQauntity: Int) {
-        items.value = items.value.map {
-            if (it.id == shopItem.id) ShopItem(
-                it.id,
-                it.name,
-                if (newQauntity > 0) newQauntity else 0
-            ) else it.copy()
-        }
+    fun changeQuantity(shopItem: ShopItem, newQuantity: Int) {
+        items.value = items.value
+            .map {
+                if (it.id == shopItem.id) ShopItem(
+                    it.id,
+                    it.name,
+                    newQuantity
+                ) else it.copy()
+            }
+            .filter { it.quantity!! >= 0 }
     }
 
     fun addAll() = viewModelScope.launch(Dispatchers.IO) {

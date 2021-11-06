@@ -7,6 +7,8 @@
         <variable
             name="shopitem"
             type="com.shopping.core.domain.ShopItem" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,7 +45,20 @@
                     android:layout_width="8dp"
                     android:layout_height="2dp"
                     android:layout_marginStart="10dp"
+                    android:visibility="@{shopitem.quantity > 0 ? View.VISIBLE : View.INVISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    style="@style/ShopItemInsertAdd"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/ic_radoo_icon_trash"
+                    android:visibility="@{shopitem.quantity == 0 ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
