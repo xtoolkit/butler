@@ -25,7 +25,8 @@ class ShopItemInsertActivity : AppCompatActivity() {
         shopitem = it
         input.setText(it.quantity!!.toString())
         input.setOnKeyListener { _, _, _ ->
-            viewModel.changeQuantity(it, input.text.toString().toInt())
+            val data = input.text.toString()
+            viewModel.changeQuantity(it, if (data.isEmpty()) 0 else data.toInt())
             false
         }
         add.setOnClickListener { _ -> viewModel.changeQuantity(it, it.quantity!! + 1) }
