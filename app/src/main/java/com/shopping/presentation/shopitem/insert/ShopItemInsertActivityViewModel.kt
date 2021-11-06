@@ -55,7 +55,7 @@ class ShopItemInsertActivityViewModel(
     fun addAll() = viewModelScope.launch(Dispatchers.IO) {
         items.value.forEach {
             addShopItemUC(
-                shoplist to ShopItem(0, it.name, if (it.quantity == null) 0 else it.quantity)
+                shoplist to ShopItem(0, it.name, if (it.quantity == 0) null else it.quantity)
             )
         }
         trigger(BACK_TO_HOME)
