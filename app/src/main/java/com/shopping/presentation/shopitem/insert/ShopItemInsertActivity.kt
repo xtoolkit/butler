@@ -1,11 +1,8 @@
 package com.shopping.presentation.shopitem.insert
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.shopping.core.domain.ShopItem
@@ -30,7 +27,7 @@ class ShopItemInsertActivity : AppCompatActivity() {
         input.selectAll()
         add.setOnClickListener { _ -> viewModel.changeQuantity(it, it.quantity!! + 1) }
         remove.setOnClickListener { _ -> viewModel.changeQuantity(it, it.quantity!! - 1) }
-        input.setOnEditorActionListener { v, actionId, event ->
+        input.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE && event == null) {
                 binding?.input?.requestFocus()
                 return@setOnEditorActionListener true
@@ -66,7 +63,7 @@ class ShopItemInsertActivity : AppCompatActivity() {
             viewModel.addShopItem(domain)
         }
 
-        binding.input.setOnEditorActionListener { v, actionId, event ->
+        binding.input.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE && event == null) {
                 viewModel.addShopItem(domain)
                 return@setOnEditorActionListener true
