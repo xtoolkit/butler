@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="Add new list"
-            android:textColor="@color/black"
+            android:textColor="@color/text"
             android:textSize="20sp"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -15,9 +15,10 @@
 
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:id="@+id/box"
-        style="@style/FullSwitchLayout"
         android:layout_width="match_parent"
         android:layout_height="54dp"
+        android:background="@drawable/switch_layout"
+        android:backgroundTint="@color/panel_2"
         app:layoutDescription="@xml/layout_fragment_shopitem_show_switch_scene">
 
         <ImageView

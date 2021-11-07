@@ -6,8 +6,8 @@
 
     <com.discord.panels.OverlappingPanelsLayout
         android:id="@+id/overlapping_panels"
-        style="@style/RootPanel"
         android:layout_width="match_parent"
+        android:background="@color/root"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -23,13 +23,15 @@
 
         <ImageView
             android:id="@+id/menu"
-            style="@style/PanelMenu"
             android:layout_width="24dp"
             android:layout_height="0dp"
             android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_radoo_icon_menu"
             app:layout_constraintBottom_toBottomOf="@id/page_title"
+            app:layout_constraintDimensionRatio="1, 1"
             app:layout_constraintEnd_toStartOf="@id/page_title"
-            app:layout_constraintTop_toTopOf="@id/page_title" />
+            app:layout_constraintTop_toTopOf="@id/page_title"
+            app:tint="@color/text_style_1" />
 
         <TextView
             android:id="@+id/page_title"
@@ -83,23 +85,23 @@
 
         <TextView
             android:id="@+id/item_bar"
-            style="@style/ShopItemHeader"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="36dp"
             android:text="Items"
+            android:textColor="@color/text_style_1"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/list"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/switch_layout" />
 
         <TextView
-            style="@style/ShopItemHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text='@{"( " + items + " )"}'
+            android:textColor="@color/text_style_1"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/sub_info_menu"
             app:layout_constraintStart_toEndOf="@id/item_bar"
@@ -129,11 +131,11 @@
             app:tint="#526DFE" />
 
         <TextView
-            style="@style/ShopItemHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="6dp"
             android:text="Edit"
+            android:textColor="@color/text_style_1"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/sub_info_menu"
             app:layout_constraintEnd_toStartOf="@id/sub_info_menu"
@@ -155,7 +157,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
-            android:backgroundTint="#1EAD8F"
+            android:backgroundTint="@color/green"
             android:src="@drawable/ic_baseline_add_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"

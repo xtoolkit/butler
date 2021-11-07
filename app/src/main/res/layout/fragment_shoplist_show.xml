@@ -24,10 +24,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/theme_switch"
-            style="@style/ThemeSwitch"
             android:layout_width="80dp"
             android:layout_height="32dp"
             android:layout_marginEnd="12dp"
+            android:background="@drawable/layout_theme_switch"
             app:layout_constraintBottom_toBottomOf="@id/page_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/page_title">
@@ -48,6 +48,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:textSize="14sp"
+                android:textColor="@color/text_style_1"
                 app:layout_constraintStart_toEndOf="@id/moon" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

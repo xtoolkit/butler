@@ -17,11 +17,11 @@
         android:layout_marginHorizontal="20dp">
 
         <TextView
-            style="@style/ShopItemInsertTitle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="@{shopitem.name, default=title}"
+            android:textColor="@color/text_style_1"
             app:layout_constraintEnd_toStartOf="@id/right"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -41,17 +41,16 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <View
-                    style="@style/ShopItemInsertRemove"
                     android:layout_width="8dp"
                     android:layout_height="2dp"
                     android:layout_marginStart="10dp"
+                    android:background="@color/text"
                     android:visibility="@{shopitem.quantity > 0 ? View.VISIBLE : View.INVISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    style="@style/ShopItemInsertAdd"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_marginStart="8dp"
@@ -60,7 +59,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/text" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <EditText
@@ -83,7 +83,6 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <ImageView
-                    style="@style/ShopItemInsertAdd"
                     android:layout_width="16dp"
                     android:layout_height="0dp"
                     android:layout_marginEnd="8dp"
@@ -91,15 +90,16 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1, 1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/text" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
-            style="@style/ShopItemInsertHR"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:background="@color/panel_2"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
