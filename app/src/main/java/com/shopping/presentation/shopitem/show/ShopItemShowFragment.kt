@@ -1,6 +1,5 @@
 package com.shopping.presentation.shopitem.show
 
-import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.shopping.core.domain.ShopItem
 import com.shopping.databinding.FragmentShopitemShowBinding
 import com.shopping.databinding.ItemShopitemBinding
-import com.shopping.presentation.shopitem.insert.ShopItemInsertActivity
 import com.shopping.presentation.shopitem.show.ShopItemShowEvents.SHOW_ALERT
 import com.shopping.utils.recyclerview.EasyAdapter
 import com.shopping.utils.snackbar.SnackBarModel
@@ -68,12 +66,7 @@ class ShopItemShowFragment : Fragment() {
                 viewModel.changeShopList(shoplistId)
             }
 
-        binding.add.setOnClickListener {
-            startActivity(
-                Intent(requireContext(), ShopItemInsertActivity::class.java)
-                    .putExtra("shoplistId", shoplistId)
-            )
-        }
+        binding.add.setOnClickListener { }
 
         binding.switchLayout.btn1.setOnClickListener { binding.switchLayout.box.transitionToStart() }
         binding.switchLayout.btn2.setOnClickListener { binding.switchLayout.box.transitionToEnd() }

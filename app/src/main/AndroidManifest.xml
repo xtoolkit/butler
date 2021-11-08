@@ -13,18 +13,12 @@
 
         <activity
             android:name=".presentation.main.MainActivity"
-            android:noHistory="true"
             android:theme="@style/Theme.Shopping.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".presentation.shopitem.insert.ShopItemInsertActivity"
-            android:noHistory="true"
-            android:theme="@style/Theme.Shopping.NoActionBar" />
     </application>
 
 </manifest>
