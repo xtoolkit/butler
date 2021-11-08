@@ -6,15 +6,15 @@
 
     <data>
 
-        <import type="android.view.View" />
+        <variable
+            name="isEdit"
+            type="boolean" />
 
         <variable
             name="shoplist"
             type="com.shopping.core.domain.ShopList" />
 
-        <variable
-            name="items"
-            type="Number" />
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -78,87 +78,83 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginHorizontal="16dp"
+            android:visibility="@{isEdit ? View.INVISIBLE : View.VISIBLE}"
             app:btnFirst="@{@string/all}"
             app:btnSecond="@{@string/done}"
-            app:layout_constraintBottom_toTopOf="@id/item_bar"
+            app:layout_constraintBottom_toTopOf="@id/list"
             app:layout_constraintTop_toBottomOf="@id/page_title" />
 
-        <TextView
-            android:id="@+id/item_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="36dp"
-            android:text="Items"
-            android:textColor="@color/text_style_1"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/list"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/switch_layout" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text='@{"( " + items + " )"}'
-            android:textColor="@color/text_style_1"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/sub_info_menu"
-            app:layout_constraintStart_toEndOf="@id/item_bar"
-            app:layout_constraintTop_toTopOf="@id/sub_info_menu" />
-
-        <ImageView
-            android:id="@+id/sub_info_menu"
-            android:layout_width="30dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_radoo_icon_btn"
-            app:layout_constraintBottom_toBottomOf="@id/item_bar"
-            app:layout_constraintDimensionRatio="1, 1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/item_bar"
-            app:tint="#E4E8FF" />
-
-        <ImageView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/insert_box"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="6dp"
-            android:src="@drawable/ic_radoo_icon_sort"
-            app:layout_constraintBottom_toBottomOf="@id/sub_info_menu"
-            app:layout_constraintEnd_toEndOf="@id/sub_info_menu"
-            app:layout_constraintStart_toStartOf="@id/sub_info_menu"
-            app:layout_constraintTop_toTopOf="@id/sub_info_menu"
-            app:tint="#526DFE" />
+            android:visibility="@{isEdit ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@id/switch_layout"
+            app:layout_constraintEnd_toEndOf="@id/switch_layout"
+            app:layout_constraintStart_toStartOf="@id/switch_layout"
+            app:layout_constraintTop_toTopOf="@id/switch_layout">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
-            android:text="Edit"
-            android:textColor="@color/text_style_1"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/sub_info_menu"
-            app:layout_constraintEnd_toStartOf="@id/sub_info_menu"
-            app:layout_constraintTop_toTopOf="@id/sub_info_menu" />
+            <EditText
+                android:id="@+id/input"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:autofillHints="name"
+                android:background="@drawable/circle"
+                android:backgroundTint="@color/panel_2"
+                android:hint="@string/type_here_too_add_an_item"
+                android:inputType="textShortMessage"
+                android:paddingHorizontal="16dp"
+                android:singleLine="true"
+                android:textColor="@color/text"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/submit"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/submit"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/circle"
+                app:layout_constraintBottom_toBottomOf="@id/input"
+                app:layout_constraintDimensionRatio="1, 1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/input"
+                app:tint="#526DFE" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="2dp"
+                android:src="@drawable/ic_radoo_icon_send"
+                app:layout_constraintBottom_toBottomOf="@id/submit"
+                app:layout_constraintEnd_toEndOf="@id/submit"
+                app:layout_constraintStart_toStartOf="@id/submit"
+                app:layout_constraintTop_toTopOf="@id/submit"
+                app:tint="#FFFFFF" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="26dp"
+            android:layout_marginBottom="8dp"
+            android:paddingHorizontal="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_bar"
+            app:layout_constraintTop_toBottomOf="@id/switch_layout"
             tools:listitem="@layout/item_shopitem" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add"
+            android:id="@+id/edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/green"
-            android:src="@drawable/ic_baseline_add_24"
+            android:src="@{isEdit ? @drawable/ic_round_done_24 : @drawable/ic_round_edit_24}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:tint="#ffffff" />

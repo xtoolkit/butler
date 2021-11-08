@@ -5,6 +5,10 @@
     <data>
 
         <variable
+            name="isEdit"
+            type="boolean" />
+
+        <variable
             name="shopitem"
             type="com.shopping.core.domain.ShopItem" />
 
@@ -42,28 +46,105 @@
                 app:layout_constraintTop_toTopOf="@id/background" />
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginVertical="16dp"
+                android:paddingVertical="16dp"
                 android:gravity="center"
-                android:textColor="@color/text_style_1"
                 android:text="@{shopitem.name, default=title}"
+                android:textColor="@color/text_style_1"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@id/quantity"
+                app:layout_constraintBottom_toTopOf="@id/quantity_box"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/quantity"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/quantity_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_horizontal"
-                android:paddingHorizontal="2dp"
-                android:text='@{"(" + shopitem.quantity + "x)", default=x1}'
-                android:textSize="10sp"
-                android:visibility="@{shopitem.quantity==null ? View.GONE : View.VISIBLE}"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/title">
 
+                <TextView
+                    android:id="@+id/quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="2dp"
+                    android:text='@{"(" + shopitem.quantity + "x)", default=x1}'
+                    android:textSize="10sp"
+                    android:visibility="@{shopitem.quantity==null || isEdit ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:visibility="@{isEdit ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/remove"
+                        android:layout_width="22dp"
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toStartOf="@id/input"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="2dp"
+                            android:layout_marginStart="10dp"
+                            android:background="@color/text"
+                            android:visibility="@{shopitem.quantity > 1 ? View.VISIBLE : View.INVISIBLE}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginStart="8dp"
+                            android:src="@drawable/ic_radoo_icon_trash"
+                            android:visibility="@{shopitem.quantity == 1 ? View.VISIBLE : View.INVISIBLE}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/text" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <EditText
+                        android:id="@+id/input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="4dp"
+                        android:background="@android:color/transparent"
+                        android:imeOptions="actionDone|actionSend"
+                        android:inputType="number"
+                        android:minWidth="32dp"
+                        android:textAlignment="center"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@id/add"
+                        app:layout_constraintStart_toEndOf="@id/remove" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/add"
+                        android:layout_width="22dp"
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/input">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="0dp"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_baseline_add_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="1, 1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/text" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

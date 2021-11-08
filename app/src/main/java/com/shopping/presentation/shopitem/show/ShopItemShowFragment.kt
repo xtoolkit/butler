@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.shopping.core.domain.ShopItem
 import com.shopping.databinding.FragmentShopitemShowBinding
 import com.shopping.databinding.ItemShopitemBinding
+import com.shopping.presentation.shopitem.show.ShopItemShowEvents.EDIT_MODE_CHANGED
 import com.shopping.presentation.shopitem.show.ShopItemShowEvents.SHOW_ALERT
 import com.shopping.utils.recyclerview.EasyAdapter
 import com.shopping.utils.snackbar.SnackBarModel
@@ -23,11 +24,17 @@ class ShopItemShowFragment : Fragment() {
     private var binding: FragmentShopitemShowBinding? = null
     private val viewModel: ShopItemShowFragmentViewModel by viewModel()
     private val isLandscape by lazy { resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE }
-    private var shoplistId = -1
+    private var shopListId = -1
     private val adapter = EasyAdapter(ItemShopitemBinding::inflate) { it: ShopItem ->
         shopitem = it
-        root.setOnClickListener { _ -> viewModel.toggleDone(it) }
+        isEdit = viewModel.isEdit
+        input.setText(it.quantity.toString())
+        background.setOnClickListener { _ -> viewModel.toggleDone(it) }
+        remove.setOnClickListener { _ -> viewModel.changeQuantity(it, it.quantity!! - 1) }
+        add.setOnClickListener { _ -> viewModel.changeQuantity(it, it.quantity!! + 1) }
     }
+    private val domain: ShopItem
+        get() = ShopItem(viewModel.items.value.size, binding!!.input.text.toString(), 1)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,19 +49,21 @@ class ShopItemShowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val binding = requireNotNull(binding)
 
+        binding.isEdit = viewModel.isEdit
+
         binding.list.adapter = adapter
         binding.list.layoutManager = GridLayoutManager(requireContext(), if (isLandscape) 5 else 3)
 
         lifecycleScope.launchWhenResumed { viewModel.shopList.collect { binding.shoplist = it } }
 
-        lifecycleScope.launchWhenResumed {
-            viewModel.items.collect {
-                adapter.submitList(it)
-                binding.items = it.size
-            }
-        }
+        lifecycleScope.launchWhenResumed { viewModel.items.collect { adapter.submitList(it) } }
 
         viewModel.on(SHOW_ALERT) { it: SnackBarModel -> snackBarBuilder(binding.list, it) }
+
+        viewModel.on(EDIT_MODE_CHANGED) {
+            binding.isEdit = viewModel.isEdit
+            adapter.notifyItemRangeChanged(0, viewModel.items.value.size)
+        }
 
         binding.menu.setOnClickListener {
             parentFragmentManager.setFragmentResult("openShopListMenu", bundleOf())
@@ -62,11 +71,13 @@ class ShopItemShowFragment : Fragment() {
 
         parentFragmentManager
             .setFragmentResultListener("shopListItemsChanged", viewLifecycleOwner) { _, it ->
-                shoplistId = it.getInt("id")
-                viewModel.changeShopList(shoplistId)
+                shopListId = it.getInt("id")
+                viewModel.changeShopList(shopListId)
             }
 
-        binding.add.setOnClickListener { }
+        binding.edit.setOnClickListener { viewModel.toggleEdit() }
+
+        binding.submit.setOnClickListener { viewModel.addShopItem(domain) }
 
         binding.switchLayout.btn1.setOnClickListener { binding.switchLayout.box.transitionToStart() }
         binding.switchLayout.btn2.setOnClickListener { binding.switchLayout.box.transitionToEnd() }
