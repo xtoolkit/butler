@@ -24,6 +24,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/theme_switch"
+            android:visibility="gone"
             android:layout_width="80dp"
             android:layout_height="32dp"
             android:layout_marginEnd="12dp"
