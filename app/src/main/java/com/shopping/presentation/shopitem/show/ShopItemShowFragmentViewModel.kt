@@ -24,10 +24,11 @@ class ShopItemShowFragmentViewModel(
     private val getAllShopItemUC: GetAllShopItemUC,
     private val addShopItemUC: AddShopItemUC,
     private val updateShopItemUC: UpdateShopItemUC
-) :
-    TopAppViewModel<ShopItemShowEvents>() {
+) : TopAppViewModel<ShopItemShowEvents>() {
     private var lastListJob: Job? = null
+    private var lastItemsJob: Job? = null
     private var lastListFlow: Flow<List<ShopItem>>? = null
+    private var isDone: Boolean? = null
     var isEdit = false
     val shopList = MutableStateFlow<ShopList?>(null)
     val items = MutableStateFlow(listOf<ShopItem>())
@@ -39,10 +40,22 @@ class ShopItemShowFragmentViewModel(
         lastListJob = viewModelScope.launch(Dispatchers.IO) {
             getShopListUC(ShopList(newId, "")).onSuccess {
                 shopList.emit(it)
-                getAllShopItemUC(it to null).onSuccess { list ->
-                    lastListFlow = list
-                    list.collect { x -> if (!isEdit) items.emit(x) }
-                }
+                changeShopItemsShow(null)
+            }
+        }
+    }
+
+    fun changeShopItemsShow(isDone: Boolean?) {
+        this.isDone = isDone
+        getShopItems(isDone)
+    }
+
+    private fun getShopItems(isDone: Boolean?) = shopList.value?.let {
+        lastItemsJob?.cancel()
+        lastItemsJob = viewModelScope.launch(Dispatchers.IO) {
+            getAllShopItemUC(it to isDone).onSuccess { list ->
+                lastListFlow = list
+                list.collect { x -> if (!isEdit) items.emit(x) }
             }
         }
     }

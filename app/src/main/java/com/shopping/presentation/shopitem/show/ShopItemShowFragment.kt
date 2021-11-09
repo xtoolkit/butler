@@ -63,6 +63,7 @@ class ShopItemShowFragment : Fragment() {
         viewModel.on(EDIT_MODE_CHANGED) {
             binding.isEdit = viewModel.isEdit
             adapter.notifyItemRangeChanged(0, viewModel.items.value.size)
+            binding.switchLayout.box.transitionToStart()
         }
 
         binding.menu.setOnClickListener {
@@ -86,8 +87,14 @@ class ShopItemShowFragment : Fragment() {
             )
         }
 
-        binding.switchLayout.btn1.setOnClickListener { binding.switchLayout.box.transitionToStart() }
-        binding.switchLayout.btn2.setOnClickListener { binding.switchLayout.box.transitionToEnd() }
+        binding.switchLayout.btn1.setOnClickListener {
+            binding.switchLayout.box.transitionToStart()
+            viewModel.changeShopItemsShow(null)
+        }
+        binding.switchLayout.btn2.setOnClickListener {
+            binding.switchLayout.box.transitionToEnd()
+            viewModel.changeShopItemsShow(true)
+        }
     }
 
     override fun onDestroy() {
