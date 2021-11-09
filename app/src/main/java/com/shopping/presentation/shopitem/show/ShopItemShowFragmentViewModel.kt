@@ -85,8 +85,7 @@ class ShopItemShowFragmentViewModel(
         .onSuccess { items.value = items.value.toMutableList().apply { add(item) } }
 
     fun requestChangeQuantity(item: ShopItemShowUIItem, newQuantity: Int) {
-        if (newQuantity < 1) trigger(SHOW_ALERT, SnackBarModel("delete?"))
-        else items.value = items.value.map {
+        items.value = items.value.map {
             if (item.id == it.id) it.copy(quantity = newQuantity, updated = !item.isNew)
             else it
         }
