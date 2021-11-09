@@ -94,6 +94,10 @@ class MainActivity : AppCompatActivity(), PanelsChildGestureRegionObserver.Gestu
                         AppCompatDelegate.MODE_NIGHT_YES
                 )
             }
+
+            setFragmentResultListener("requestOpenShopListSetting", this@MainActivity) { _, _ ->
+                overlappingPanels.openEndPanel()
+            }
         }
     }
 

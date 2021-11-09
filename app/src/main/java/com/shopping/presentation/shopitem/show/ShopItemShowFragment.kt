@@ -79,6 +79,13 @@ class ShopItemShowFragment : Fragment() {
 
         binding.submit.setOnClickListener { viewModel.addShopItem(domain) }
 
+        binding.more.setOnClickListener {
+            parentFragmentManager.setFragmentResult(
+                "requestOpenShopListSetting",
+                bundleOf("id" to shopListId)
+            )
+        }
+
         binding.switchLayout.btn1.setOnClickListener { binding.switchLayout.box.transitionToStart() }
         binding.switchLayout.btn2.setOnClickListener { binding.switchLayout.box.transitionToEnd() }
     }
