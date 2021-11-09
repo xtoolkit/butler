@@ -14,4 +14,7 @@ class ShopItemRepo(private val shopItemDS: ShopItemDS) {
     suspend fun getAllShopItem(shopList: ShopList) = shopItemDS.getAll(shopList)
     suspend fun updateShopItem(shopList: ShopList, shopItem: ShopItem) =
         shopItemDS.update(shopList, shopItem)
+
+    suspend fun deleteShopItem(shopList: ShopList, shopItem: ShopItem) =
+        shopItemDS.delete(shopList, shopItem)
 }

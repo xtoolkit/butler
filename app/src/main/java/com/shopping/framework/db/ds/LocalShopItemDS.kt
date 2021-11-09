@@ -30,4 +30,8 @@ class LocalShopItemDS(private val shopItemDao: ShopItemDao) : ShopItemDS {
     override suspend fun update(shopList: ShopList, shopItem: ShopItem) = shopItemDao
         .update(shopItem.toEntity(shopList))
         .run { return@run Result.success(shopItem) }
+
+    override suspend fun delete(shopList: ShopList, shopItem: ShopItem) = shopItemDao
+        .delete(shopItem.toEntity(shopList))
+        .run { return@run Result.success(shopItem) }
 }

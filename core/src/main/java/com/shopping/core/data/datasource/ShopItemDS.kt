@@ -9,4 +9,5 @@ interface ShopItemDS {
     suspend fun get(shopList: ShopList, shopItem: ShopItem): Result<ShopItem>
     suspend fun getAll(shopList: ShopList): Result<Flow<List<ShopItem>>>
     suspend fun update(shopList: ShopList, shopItem: ShopItem): Result<ShopItem>
+    suspend fun delete(shopList: ShopList, shopItem: ShopItem): Result<ShopItem>
 }

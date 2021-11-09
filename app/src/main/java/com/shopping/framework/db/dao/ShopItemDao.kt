@@ -20,4 +20,7 @@ interface ShopItemDao {
 
     @Update
     suspend fun update(shopItemEntity: ShopItemEntity)
+
+    @Delete
+    suspend fun delete(shopItemEntity: ShopItemEntity)
 }

@@ -8,6 +8,7 @@ val useCases = module {
     single { GetShopItemUC(get()) }
     single { GetAllShopItemUC(get()) }
     single { UpdateShopItemUC(get()) }
+    single { DeleteShopItemUC(get()) }
     single { AddShopListUC(get()) }
     single { GetShopListUC(get()) }
     single { GetAllShopListUC(get()) }
