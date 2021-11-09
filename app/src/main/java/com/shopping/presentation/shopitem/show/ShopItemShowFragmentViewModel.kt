@@ -39,7 +39,7 @@ class ShopItemShowFragmentViewModel(
         lastListJob = viewModelScope.launch(Dispatchers.IO) {
             getShopListUC(ShopList(newId, "")).onSuccess {
                 shopList.emit(it)
-                getAllShopItemUC(it).onSuccess { list ->
+                getAllShopItemUC(it to null).onSuccess { list ->
                     lastListFlow = list
                     list.collect { x -> if (!isEdit) items.emit(x) }
                 }

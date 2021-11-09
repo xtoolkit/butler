@@ -6,6 +6,7 @@ import com.shopping.core.domain.ShopList
 import com.shopping.framework.db.dao.ShopItemDao
 import com.shopping.framework.db.entity.contverter.toDomain
 import com.shopping.framework.db.entity.contverter.toEntity
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class LocalShopItemDS(private val shopItemDao: ShopItemDao) : ShopItemDS {
@@ -23,9 +24,20 @@ class LocalShopItemDS(private val shopItemDao: ShopItemDao) : ShopItemDS {
         return Result.failure(Exception("ShopItem cannot be found."))
     }
 
-    override suspend fun getAll(shopList: ShopList) = Result.success(
-        shopItemDao.getAll(shopList.id).map { list -> list.map { it.toDomain() } }
-    )
+    override suspend fun getAll(
+        shopList: ShopList,
+        isDone: Boolean?
+    ): Result<Flow<List<ShopItem>>> {
+        isDone?.let {
+            return Result.success(
+                shopItemDao.getAllByDone(shopList.id, it)
+                    .map { list -> list.map { item -> item.toDomain() } }
+            )
+        }
+        return Result.success(
+            shopItemDao.getAll(shopList.id).map { list -> list.map { it.toDomain() } }
+        )
+    }
 
     override suspend fun update(shopList: ShopList, shopItem: ShopItem) = shopItemDao
         .update(shopItem.toEntity(shopList))

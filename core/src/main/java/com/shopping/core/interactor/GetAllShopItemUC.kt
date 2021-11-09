@@ -7,6 +7,7 @@ import com.shopping.core.interactor.base.BaseUseCase
 import kotlinx.coroutines.flow.Flow
 
 class GetAllShopItemUC(shopItemRepo: ShopItemRepo) :
-    BaseUseCase<ShopList, Flow<List<ShopItem>>, ShopItemRepo>(shopItemRepo) {
-    override suspend fun execute(parameter: ShopList) = repo.getAllShopItem(parameter)
+    BaseUseCase<Pair<ShopList, Boolean?>, Flow<List<ShopItem>>, ShopItemRepo>(shopItemRepo) {
+    override suspend fun execute(parameter: Pair<ShopList, Boolean?>) =
+        repo.getAllShopItem(parameter.first, parameter.second)
 }

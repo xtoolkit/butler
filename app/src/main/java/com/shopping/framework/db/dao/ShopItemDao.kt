@@ -12,6 +12,9 @@ interface ShopItemDao {
     @Query("select * from shop_items where listId = :shopListId")
     fun getAll(shopListId: Int): Flow<List<ShopItemEntity>>
 
+    @Query("select * from shop_items where listId = :shopListId AND done = :isDone")
+    fun getAllByDone(shopListId: Int, isDone: Boolean): Flow<List<ShopItemEntity>>
+
     @Query("select * from shop_items where id = :id")
     suspend fun getById(id: Int): ShopItemEntity?
 

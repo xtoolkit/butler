@@ -11,7 +11,9 @@ class ShopItemRepo(private val shopItemDS: ShopItemDS) {
     suspend fun getShopItem(shopList: ShopList, shopItem: ShopItem) =
         shopItemDS.get(shopList, shopItem)
 
-    suspend fun getAllShopItem(shopList: ShopList) = shopItemDS.getAll(shopList)
+    suspend fun getAllShopItem(shopList: ShopList, isDone: Boolean? = null) =
+        shopItemDS.getAll(shopList, isDone)
+
     suspend fun updateShopItem(shopList: ShopList, shopItem: ShopItem) =
         shopItemDS.update(shopList, shopItem)
 
