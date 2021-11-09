@@ -11,9 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.shopping.databinding.FragmentShopitemShowBinding
 import com.shopping.databinding.ItemShopitemBinding
-import com.shopping.presentation.shopitem.show.ShopItemShowEvents.EDIT_MODE_CHANGED
-import com.shopping.presentation.shopitem.show.ShopItemShowEvents.SHOW_ALERT
+import com.shopping.presentation.shopitem.show.ShopItemShowEvents.*
 import com.shopping.presentation.shopitem.show.converter.toDomain
+import com.shopping.utils.modalalert.ModalAlertModel
+import com.shopping.utils.modalalert.modalAlertBuilder
 import com.shopping.utils.recyclerview.EasyAdapter
 import com.shopping.utils.snackbar.SnackBarModel
 import com.shopping.utils.snackbar.snackBarBuilder
@@ -29,9 +30,12 @@ class ShopItemShowFragment : Fragment() {
         shopitem = it.toDomain()
         isEdit = viewModel.isEdit
         input.setText(it.quantity.toString())
-        background.setOnClickListener { _ -> viewModel.toggleDone(it) }
-        remove.setOnClickListener { _ -> viewModel.changeQuantity(it, it.quantity - 1) }
-        add.setOnClickListener { _ -> viewModel.changeQuantity(it, it.quantity + 1) }
+        background.setOnClickListener { _ -> viewModel.requestToggleDone(it) }
+        remove.setOnClickListener { _ ->
+            if (it.quantity > 1) viewModel.requestChangeQuantity(it, it.quantity - 1)
+            else viewModel.requestDeleteShopItem(it)
+        }
+        add.setOnClickListener { _ -> viewModel.requestChangeQuantity(it, it.quantity + 1) }
     }
     private val domain
         get() = ShopItemShowUIItem(
@@ -64,6 +68,8 @@ class ShopItemShowFragment : Fragment() {
 
         viewModel.on(SHOW_ALERT) { it: SnackBarModel -> snackBarBuilder(binding.list, it) }
 
+        viewModel.on(SHOW_MODAL) { it: ModalAlertModel -> modalAlertBuilder(requireContext(), it) }
+
         viewModel.on(EDIT_MODE_CHANGED) {
             binding.isEdit = viewModel.isEdit
             adapter.notifyItemRangeChanged(0, viewModel.items.value.size)
@@ -82,7 +88,7 @@ class ShopItemShowFragment : Fragment() {
 
         binding.edit.setOnClickListener { viewModel.toggleEdit() }
 
-        binding.submit.setOnClickListener { viewModel.addShopItem(domain) }
+        binding.submit.setOnClickListener { viewModel.requestAddShopItem(domain) }
 
         binding.more.setOnClickListener {
             parentFragmentManager.setFragmentResult(

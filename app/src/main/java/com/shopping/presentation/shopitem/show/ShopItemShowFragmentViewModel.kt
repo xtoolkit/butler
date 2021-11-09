@@ -3,15 +3,12 @@ package com.shopping.presentation.shopitem.show
 import androidx.lifecycle.viewModelScope
 import com.shopping.core.domain.ShopItem
 import com.shopping.core.domain.ShopList
-import com.shopping.core.interactor.AddShopItemUC
-import com.shopping.core.interactor.GetAllShopItemUC
-import com.shopping.core.interactor.GetShopListUC
-import com.shopping.core.interactor.UpdateShopItemUC
+import com.shopping.core.interactor.*
 import com.shopping.framework.TopAppViewModel
-import com.shopping.presentation.shopitem.show.ShopItemShowEvents.EDIT_MODE_CHANGED
-import com.shopping.presentation.shopitem.show.ShopItemShowEvents.SHOW_ALERT
+import com.shopping.presentation.shopitem.show.ShopItemShowEvents.*
 import com.shopping.presentation.shopitem.show.converter.toDomain
 import com.shopping.presentation.shopitem.show.converter.toShopItemShowUIItem
+import com.shopping.utils.modalalert.ModalAlertModel
 import com.shopping.utils.snackbar.SnackBarModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -23,7 +20,8 @@ class ShopItemShowFragmentViewModel(
     private val getShopListUC: GetShopListUC,
     private val getAllShopItemUC: GetAllShopItemUC,
     private val addShopItemUC: AddShopItemUC,
-    private val updateShopItemUC: UpdateShopItemUC
+    private val updateShopItemUC: UpdateShopItemUC,
+    private val deleteShopItemUC: DeleteShopItemUC
 ) : TopAppViewModel<ShopItemShowEvents>() {
     private var lastListJob: Job? = null
     private var isDone: Boolean? = false
@@ -82,11 +80,11 @@ class ShopItemShowFragmentViewModel(
         return Result.success(true)
     }
 
-    fun addShopItem(item: ShopItemShowUIItem) = checkNewShopItemValidity(item.toDomain())
+    fun requestAddShopItem(item: ShopItemShowUIItem) = checkNewShopItemValidity(item.toDomain())
         .onFailure { trigger(SHOW_ALERT, SnackBarModel(it.message!!)) }
         .onSuccess { items.value = items.value.toMutableList().apply { add(item) } }
 
-    fun changeQuantity(item: ShopItemShowUIItem, newQuantity: Int) {
+    fun requestChangeQuantity(item: ShopItemShowUIItem, newQuantity: Int) {
         if (newQuantity < 1) trigger(SHOW_ALERT, SnackBarModel("delete?"))
         else items.value = items.value.map {
             if (item.id == it.id) it.copy(quantity = newQuantity, updated = !item.isNew)
@@ -94,7 +92,17 @@ class ShopItemShowFragmentViewModel(
         }
     }
 
-    fun toggleDone(item: ShopItemShowUIItem) = viewModelScope.launch(Dispatchers.IO) {
+    fun requestDeleteShopItem(item: ShopItemShowUIItem) = trigger(SHOW_MODAL,
+        ModalAlertModel("Warning", "Are you sure to delete `${item.name}`?") {
+            viewModelScope.launch(Dispatchers.IO) {
+                deleteShopItemUC(shopList.value!! to item.toDomain()).onSuccess {
+                    items.emit(items.value.filter { it.id != item.id })
+                }
+            }
+        }
+    )
+
+    fun requestToggleDone(item: ShopItemShowUIItem) = viewModelScope.launch(Dispatchers.IO) {
         if (item.done && isEdit && !item.updated) return@launch
         val newItem = item.copy(done = !item.done)
         updateShopItemUC(shopList.value!! to newItem.toDomain())

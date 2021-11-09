@@ -11,5 +11,5 @@ val viewModelModule = module {
     viewModel { MainActivityViewModel(get(), get(), get()) }
     viewModel { ShopListInsertFragmentViewModel(get(), get()) }
     viewModel { ShopListShowFragmentViewModel(get()) }
-    viewModel { ShopItemShowFragmentViewModel(get(), get(), get(), get()) }
+    viewModel { ShopItemShowFragmentViewModel(get(), get(), get(), get(), get()) }
 }
