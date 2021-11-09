@@ -9,11 +9,11 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.shopping.core.domain.ShopItem
 import com.shopping.databinding.FragmentShopitemShowBinding
 import com.shopping.databinding.ItemShopitemBinding
 import com.shopping.presentation.shopitem.show.ShopItemShowEvents.EDIT_MODE_CHANGED
 import com.shopping.presentation.shopitem.show.ShopItemShowEvents.SHOW_ALERT
+import com.shopping.presentation.shopitem.show.converter.toDomain
 import com.shopping.utils.recyclerview.EasyAdapter
 import com.shopping.utils.snackbar.SnackBarModel
 import com.shopping.utils.snackbar.snackBarBuilder
@@ -25,16 +25,20 @@ class ShopItemShowFragment : Fragment() {
     private val viewModel: ShopItemShowFragmentViewModel by viewModel()
     private val isLandscape by lazy { resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE }
     private var shopListId = -1
-    private val adapter = EasyAdapter(ItemShopitemBinding::inflate) { it: ShopItem ->
-        shopitem = it
+    private val adapter = EasyAdapter(ItemShopitemBinding::inflate) { it: ShopItemShowUIItem ->
+        shopitem = it.toDomain()
         isEdit = viewModel.isEdit
         input.setText(it.quantity.toString())
         background.setOnClickListener { _ -> viewModel.toggleDone(it) }
-        remove.setOnClickListener { _ -> viewModel.changeQuantity(it, it.quantity!! - 1) }
-        add.setOnClickListener { _ -> viewModel.changeQuantity(it, it.quantity!! + 1) }
+        remove.setOnClickListener { _ -> viewModel.changeQuantity(it, it.quantity - 1) }
+        add.setOnClickListener { _ -> viewModel.changeQuantity(it, it.quantity + 1) }
     }
-    private val domain: ShopItem
-        get() = ShopItem(viewModel.items.value.size, binding!!.input.text.toString(), 1)
+    private val domain
+        get() = ShopItemShowUIItem(
+            viewModel.items.value.size,
+            binding!!.input.text.toString(),
+            isNew = true
+        )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,7 +93,7 @@ class ShopItemShowFragment : Fragment() {
 
         binding.switchLayout.btn1.setOnClickListener {
             binding.switchLayout.box.transitionToStart()
-            viewModel.changeShopItemsShow(null)
+            viewModel.changeShopItemsShow(false)
         }
         binding.switchLayout.btn2.setOnClickListener {
             binding.switchLayout.box.transitionToEnd()

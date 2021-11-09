@@ -10,12 +10,12 @@ import com.shopping.core.interactor.UpdateShopItemUC
 import com.shopping.framework.TopAppViewModel
 import com.shopping.presentation.shopitem.show.ShopItemShowEvents.EDIT_MODE_CHANGED
 import com.shopping.presentation.shopitem.show.ShopItemShowEvents.SHOW_ALERT
+import com.shopping.presentation.shopitem.show.converter.toDomain
+import com.shopping.presentation.shopitem.show.converter.toShopItemShowUIItem
 import com.shopping.utils.snackbar.SnackBarModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -26,12 +26,10 @@ class ShopItemShowFragmentViewModel(
     private val updateShopItemUC: UpdateShopItemUC
 ) : TopAppViewModel<ShopItemShowEvents>() {
     private var lastListJob: Job? = null
-    private var lastItemsJob: Job? = null
-    private var lastListFlow: Flow<List<ShopItem>>? = null
-    private var isDone: Boolean? = null
+    private var isDone: Boolean? = false
     var isEdit = false
     val shopList = MutableStateFlow<ShopList?>(null)
-    val items = MutableStateFlow(listOf<ShopItem>())
+    val items = MutableStateFlow(listOf<ShopItemShowUIItem>())
 
     fun changeShopList(newId: Int) {
         isEdit = false
@@ -40,95 +38,66 @@ class ShopItemShowFragmentViewModel(
         lastListJob = viewModelScope.launch(Dispatchers.IO) {
             getShopListUC(ShopList(newId, "")).onSuccess {
                 shopList.emit(it)
-                changeShopItemsShow(null)
+                changeShopItemsShow(false)
             }
         }
     }
 
     fun changeShopItemsShow(isDone: Boolean?) {
         this.isDone = isDone
-        getShopItems(isDone)
+        setShopItems(isDone)
     }
 
-    private fun getShopItems(isDone: Boolean?) = shopList.value?.let {
-        lastItemsJob?.cancel()
-        lastItemsJob = viewModelScope.launch(Dispatchers.IO) {
+    private fun setShopItems(isDone: Boolean?) = viewModelScope.launch(Dispatchers.IO) {
+        shopList.value?.let {
             getAllShopItemUC(it to isDone).onSuccess { list ->
-                lastListFlow = list
-                list.collect { x -> if (!isEdit) items.emit(x) }
+                items.emit(list.first().map { item -> item.toShopItemShowUIItem() })
             }
         }
     }
 
     fun toggleEdit() = viewModelScope.launch(Dispatchers.IO) {
         isEdit = !isEdit
-        if (isEdit) items.emit(items.value.map {
-            ShopItem(it.id, it.name, if (it.quantity == null) 1 else it.quantity, it.done)
-        }) else {
-            var updated = false
-            val originList = lastListFlow!!.first()
-            val currentList = items.value.map { it.copy() }
-
-            // find new items
-            val newItems = currentList.filter { it.name !in originList.map { item -> item.name } }
-
-            // insert new items
-            newItems.forEach { item ->
-                updated = true
-                addShopItemUC(
-                    shopList.value!! to ShopItem(
-                        0,
-                        item.name,
-                        if (item.quantity == 1) null else item.quantity
-                    )
-                )
+        if (isEdit) changeShopItemsShow(null)
+        else {
+            items.value.filter { it.isNew }.forEach {
+                addShopItemUC(shopList.value!! to it.toDomain().copy(id = 0))
             }
-
-            // update old items if needs
-            currentList
-                .filter { it.name !in newItems.map { item -> item.name } }
-                .filter { it != originList.find { item -> item.id == it.id } }
-                .forEach {
-                    updateShopItemUC(
-                        shopList.value!! to ShopItem(
-                            it.id,
-                            it.name,
-                            if (it.quantity == 1) null else it.quantity,
-                            it.done
-                        )
-                    )
-                    updated = true
-                }
-
-            if (!updated) items.emit(originList)
+            items.value.filter { it.updated }.forEach {
+                updateShopItemUC(shopList.value!! to it.toDomain())
+            }
+            changeShopItemsShow(false)
         }
         trigger(EDIT_MODE_CHANGED)
     }
 
     private fun checkNewShopItemValidity(shopItem: ShopItem): Result<Boolean> {
-        if (shopItem.name.isBlank()) return Result.failure(Exception("Shopitem name cannot be empty."))
-        items.value.find { it.name == shopItem.name }
+        if (shopItem.name.isBlank())
+            return Result.failure(Exception("Shopitem name cannot be empty."))
+
+        items.value
+            .find { it.name == shopItem.name }
             ?.let { return Result.failure(Exception("Item already exists.")) }
+
         return Result.success(true)
     }
 
-    fun addShopItem(shopItem: ShopItem) = checkNewShopItemValidity(shopItem)
+    fun addShopItem(item: ShopItemShowUIItem) = checkNewShopItemValidity(item.toDomain())
         .onFailure { trigger(SHOW_ALERT, SnackBarModel(it.message!!)) }
-        .onSuccess {
-            items.value = items.value.toMutableList().apply { add(shopItem) }
-        }
+        .onSuccess { items.value = items.value.toMutableList().apply { add(item) } }
 
-    fun changeQuantity(shopItem: ShopItem, newQuantity: Int) {
+    fun changeQuantity(item: ShopItemShowUIItem, newQuantity: Int) {
         if (newQuantity < 1) trigger(SHOW_ALERT, SnackBarModel("delete?"))
         else items.value = items.value.map {
-            if (shopItem.id == it.id) ShopItem(it.id, it.name, newQuantity, it.done)
+            if (item.id == it.id) it.copy(quantity = newQuantity, updated = !item.isNew)
             else it
         }
     }
 
-    fun toggleDone(shopItem: ShopItem) = viewModelScope.launch(Dispatchers.IO) {
-        val item = ShopItem(shopItem.id, shopItem.name, shopItem.quantity, !shopItem.done)
-        updateShopItemUC(shopList.value!! to item)
-        if (isEdit) items.value = items.value.map { if (item.id == it.id) item else it }
+    fun toggleDone(item: ShopItemShowUIItem) = viewModelScope.launch(Dispatchers.IO) {
+        if (item.done && isEdit && !item.updated) return@launch
+        val newItem = item.copy(done = !item.done)
+        updateShopItemUC(shopList.value!! to newItem.toDomain())
+        items.emit(items.value.map { if (item.id == it.id) newItem else it })
     }
 }
