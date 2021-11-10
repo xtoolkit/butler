@@ -31,11 +31,17 @@ class ShopItemShowFragment : Fragment() {
         isEdit = viewModel.isEdit
         input.setText(it.quantity.toString())
         background.setOnClickListener { _ -> viewModel.requestToggleDone(it) }
+        add.setOnClickListener { _ -> viewModel.requestChangeQuantity(it, it.quantity + 1) }
         remove.setOnClickListener { _ ->
             if (it.quantity > 1) viewModel.requestChangeQuantity(it, it.quantity - 1)
             else viewModel.requestDeleteShopItem(it)
         }
-        add.setOnClickListener { _ -> viewModel.requestChangeQuantity(it, it.quantity + 1) }
+        input.onFocusChangeListener = View.OnFocusChangeListener { _, focus ->
+            if (!focus) {
+                val data = input.text.toString()
+                viewModel.requestChangeQuantity(it, if (data.isEmpty()) 1 else data.toInt())
+            }
+        }
     }
     private val domain
         get() = ShopItemShowUIItem(
