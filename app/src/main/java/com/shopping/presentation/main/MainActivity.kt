@@ -1,10 +1,8 @@
 package com.shopping.presentation.main
 
-import android.content.res.Configuration
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
@@ -20,10 +18,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity(), PanelsChildGestureRegionObserver.GestureRegionsListener {
     private var binding: ActivityMainBinding? = null
     private val viewModel: MainActivityViewModel by viewModel()
-    private val shoplistId by lazy { intent.getIntExtra("shoplistId", -1) }
-    private val isRTL by lazy { resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL }
-    private val isLandscape by lazy { resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE }
-    private var isNavigationInRight = false
+    private val shopListId by lazy { intent.getIntExtra("shopListId", -1) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +33,7 @@ class MainActivity : AppCompatActivity(), PanelsChildGestureRegionObserver.Gestu
             supportFragmentManager.setFragmentResult("shopListChanged", bundleOf("id" to it))
             supportFragmentManager.setFragmentResult("shopListItemsChanged", bundleOf("id" to it))
         }
-        viewModel.start(shoplistId)
+        viewModel.start(shopListId)
 
         overlappingPanels.apply {
             registerStartPanelStateListeners(object : OverlappingPanelsLayout.PanelStateListener {
@@ -62,21 +57,6 @@ class MainActivity : AppCompatActivity(), PanelsChildGestureRegionObserver.Gestu
             }
         }
 
-        var statusBarHeight: Int? = null
-        val outRect = Rect()
-        (window.decorView as ViewGroup).getWindowVisibleDisplayFrame(outRect)
-        isNavigationInRight = resources.displayMetrics.widthPixels == outRect.bottom
-
-        resources.getIdentifier("status_bar_height", "dimen", "android").takeIf { it > 0 }?.let {
-            statusBarHeight = resources.getDimensionPixelSize(it)
-            if (isLandscape) setNotches(statusBarHeight!!)
-        }
-
-        if (!isLandscape) resources.getIdentifier("navigation_bar_height", "dimen", "android")
-            .takeIf { it > 0 }?.let {
-                setNotches(statusBarHeight!!, resources.getDimensionPixelSize(it))
-            }
-
         supportFragmentManager.apply {
             setFragmentResultListener("onSelectedShopListChange", this@MainActivity) { _, it ->
                 viewModel.changeShowShopList(it.getInt("id"))
@@ -99,12 +79,6 @@ class MainActivity : AppCompatActivity(), PanelsChildGestureRegionObserver.Gestu
                 overlappingPanels.openEndPanel()
             }
         }
-    }
-
-    private fun setNotches(top: Int, bottom: Int = 0) = binding?.apply {
-        startPanelFrame.setPadding(0, top, 0, bottom)
-        centerPanelFrame.setPadding(0, top, 0, bottom)
-        endPanelFrame.setPadding(0, top, 0, bottom)
     }
 
     override fun onGestureRegionsUpdate(gestureRegions: List<Rect>) {

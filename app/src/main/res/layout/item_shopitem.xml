@@ -17,8 +17,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -118,10 +118,10 @@
                         android:layout_height="match_parent"
                         android:layout_marginHorizontal="4dp"
                         android:background="@android:color/transparent"
+                        android:gravity="center"
                         android:imeOptions="actionDone|actionSend"
                         android:inputType="number"
                         android:minWidth="32dp"
-                        android:textAlignment="center"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toStartOf="@id/add"
                         app:layout_constraintStart_toEndOf="@id/remove" />

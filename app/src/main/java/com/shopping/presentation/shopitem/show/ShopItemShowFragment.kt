@@ -39,7 +39,8 @@ class ShopItemShowFragment : Fragment() {
         input.onFocusChangeListener = View.OnFocusChangeListener { _, focus ->
             if (!focus) {
                 val data = input.text.toString()
-                viewModel.requestChangeQuantity(it, if (data.isEmpty()) 1 else data.toInt())
+//                viewModel.requestChangeQuantity(it, if (data.isEmpty()) 1 else data.toInt())
+                input.clearFocus()
             }
         }
     }
