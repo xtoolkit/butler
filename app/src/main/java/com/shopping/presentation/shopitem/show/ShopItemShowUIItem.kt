@@ -6,5 +6,5 @@ data class ShopItemShowUIItem(
     var quantity: Int = 1,
     val done: Boolean = false,
     val isNew: Boolean = false,
-    val updated: Boolean = false
+    var updated: Boolean = false
 )

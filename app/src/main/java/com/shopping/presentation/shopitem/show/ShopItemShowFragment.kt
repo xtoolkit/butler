@@ -30,25 +30,21 @@ class ShopItemShowFragment : Fragment() {
         shopitem = it.toDomain()
         isEdit = viewModel.isEdit
         input.setText(it.quantity.toString())
-        background.setOnClickListener { _ ->
-            input.clearFocus()
-            viewModel.requestToggleDone(it)
-        }
-        add.setOnClickListener { _ ->
-            input.clearFocus()
-            it.quantity++
-            input.setText(it.quantity.toString())
-        }
-        remove.setOnClickListener { _ ->
-            input.clearFocus()
-            if (it.quantity > 1) {
-                it.quantity--
-                input.setText(it.quantity.toString())
+        val changeQuality = fun(newQuality: Int, isInput: Boolean) {
+            if (!isInput) input.clearFocus()
+            if (newQuality > 0) {
+                it.quantity = newQuality
+                shopitem = it.toDomain()
+                viewModel.requestChangeQuantity(it, newQuality)
+                if (!isInput) input.setText(newQuality.toString())
             } else viewModel.requestDeleteShopItem(it)
         }
+        background.setOnClickListener { _ -> input.clearFocus(); viewModel.requestToggleDone(it) }
+        add.setOnClickListener { _ -> changeQuality(it.quantity + 1, false) }
+        remove.setOnClickListener { _ -> changeQuality(it.quantity - 1, false) }
         input.setOnKeyListener { _, _, _ ->
             val data = input.text.toString()
-            it.quantity = if (data.isEmpty()) 1 else data.toInt()
+            changeQuality(if (data.isEmpty()) 1 else data.toInt(), true)
             false
         }
     }

@@ -84,6 +84,12 @@ class ShopItemShowFragmentViewModel(
         .onFailure { trigger(SHOW_ALERT, SnackBarModel(it.message!!)) }
         .onSuccess { items.value = items.value.toMutableList().apply { add(item) } }
 
+    fun requestChangeQuantity(item: ShopItemShowUIItem, newQuantity: Int) =
+        items.value.find { it.id == item.id }?.let {
+            it.quantity = newQuantity
+            it.updated = true
+        }
+
     fun requestDeleteShopItem(item: ShopItemShowUIItem) = trigger(SHOW_MODAL,
         ModalAlertModel("Warning", "Are you sure to delete `${item.name}`?") {
             viewModelScope.launch(Dispatchers.IO) {
