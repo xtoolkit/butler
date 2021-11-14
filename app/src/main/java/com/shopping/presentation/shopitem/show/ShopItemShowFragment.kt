@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -118,6 +119,25 @@ class ShopItemShowFragment : Fragment() {
             binding.switchLayout.box.transitionToEnd()
             viewModel.changeShopItemsShow(true)
         }
+
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    val back = {
+                        isEnabled = false
+                        activity!!.onBackPressed()
+                    }
+                    if (viewModel.isEdit) viewModel.trigger(
+                        SHOW_MODAL,
+                        ModalAlertModel(
+                            "Warning",
+                            "Are you sure exit app without save list?",
+                            onPositive = back
+                        )
+                    )
+                    else back()
+                }
+            })
     }
 
     override fun onDestroy() {
