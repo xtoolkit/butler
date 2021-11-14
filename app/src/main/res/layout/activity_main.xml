@@ -7,9 +7,9 @@
     <com.discord.panels.OverlappingPanelsLayout
         android:id="@+id/overlapping_panels"
         android:layout_width="match_parent"
-        android:fitsSystemWindows="true"
+        android:layout_height="match_parent"
         android:background="@color/root"
-        android:layout_height="match_parent">
+        android:fitsSystemWindows="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/start_panel"
@@ -73,12 +73,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/end_fragment"
+                    android:name="com.shopping.presentation.shoplist.manage.ShopListManageFragment"
                     style="@style/EndPanel"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="List Details" />
+                    android:tag="endPanel" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.discord.panels.OverlappingPanelsLayout>

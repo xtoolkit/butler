@@ -25,7 +25,6 @@ class ShopItemShowFragment : Fragment() {
     private var binding: FragmentShopitemShowBinding? = null
     private val viewModel: ShopItemShowFragmentViewModel by viewModel()
     private val isLandscape by lazy { resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE }
-    private var shopListId = -1
     private val adapter = EasyAdapter(ItemShopitemBinding::inflate) { it: ShopItemShowUIItem ->
         shopitem = it.toDomain()
         isEdit = viewModel.isEdit
@@ -97,8 +96,7 @@ class ShopItemShowFragment : Fragment() {
 
         parentFragmentManager
             .setFragmentResultListener("shopListItemsChanged", viewLifecycleOwner) { _, it ->
-                shopListId = it.getInt("id")
-                viewModel.changeShopList(shopListId)
+                viewModel.changeShopList(it.getInt("id"))
             }
 
         binding.edit.setOnClickListener {
@@ -109,10 +107,7 @@ class ShopItemShowFragment : Fragment() {
         binding.submit.setOnClickListener { viewModel.requestAddShopItem(domain) }
 
         binding.more.setOnClickListener {
-            parentFragmentManager.setFragmentResult(
-                "requestOpenShopListSetting",
-                bundleOf("id" to shopListId)
-            )
+            parentFragmentManager.setFragmentResult("requestOpenShopListSetting", bundleOf())
         }
 
         binding.switchLayout.btn1.setOnClickListener {
