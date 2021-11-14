@@ -84,13 +84,6 @@ class ShopItemShowFragmentViewModel(
         .onFailure { trigger(SHOW_ALERT, SnackBarModel(it.message!!)) }
         .onSuccess { items.value = items.value.toMutableList().apply { add(item) } }
 
-    fun requestChangeQuantity(item: ShopItemShowUIItem, newQuantity: Int) {
-        items.value = items.value.map {
-            if (item.id == it.id) it.copy(quantity = newQuantity, updated = !item.isNew)
-            else it
-        }
-    }
-
     fun requestDeleteShopItem(item: ShopItemShowUIItem) = trigger(SHOW_MODAL,
         ModalAlertModel("Warning", "Are you sure to delete `${item.name}`?") {
             viewModelScope.launch(Dispatchers.IO) {
@@ -102,7 +95,6 @@ class ShopItemShowFragmentViewModel(
     )
 
     fun requestToggleDone(item: ShopItemShowUIItem) = viewModelScope.launch(Dispatchers.IO) {
-        if (item.done && isEdit && !item.updated) return@launch
         val newItem = item.copy(done = !item.done)
         updateShopItemUC(shopList.value!! to newItem.toDomain())
         items.emit(items.value.map { if (item.id == it.id) newItem else it })

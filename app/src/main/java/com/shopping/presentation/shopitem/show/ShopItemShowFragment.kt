@@ -30,18 +30,26 @@ class ShopItemShowFragment : Fragment() {
         shopitem = it.toDomain()
         isEdit = viewModel.isEdit
         input.setText(it.quantity.toString())
-        background.setOnClickListener { _ -> viewModel.requestToggleDone(it) }
-        add.setOnClickListener { _ -> viewModel.requestChangeQuantity(it, it.quantity + 1) }
-        remove.setOnClickListener { _ ->
-            if (it.quantity > 1) viewModel.requestChangeQuantity(it, it.quantity - 1)
-            else viewModel.requestDeleteShopItem(it)
+        background.setOnClickListener { _ ->
+            input.clearFocus()
+            viewModel.requestToggleDone(it)
         }
-        input.onFocusChangeListener = View.OnFocusChangeListener { _, focus ->
-            if (!focus) {
-                val data = input.text.toString()
-//                viewModel.requestChangeQuantity(it, if (data.isEmpty()) 1 else data.toInt())
-                input.clearFocus()
-            }
+        add.setOnClickListener { _ ->
+            input.clearFocus()
+            it.quantity++
+            input.setText(it.quantity.toString())
+        }
+        remove.setOnClickListener { _ ->
+            input.clearFocus()
+            if (it.quantity > 1) {
+                it.quantity--
+                input.setText(it.quantity.toString())
+            } else viewModel.requestDeleteShopItem(it)
+        }
+        input.setOnKeyListener { _, _, _ ->
+            val data = input.text.toString()
+            it.quantity = if (data.isEmpty()) 1 else data.toInt()
+            false
         }
     }
     private val domain
@@ -93,7 +101,10 @@ class ShopItemShowFragment : Fragment() {
                 viewModel.changeShopList(shopListId)
             }
 
-        binding.edit.setOnClickListener { viewModel.toggleEdit() }
+        binding.edit.setOnClickListener {
+            binding.list.requestFocus()
+            viewModel.toggleEdit()
+        }
 
         binding.submit.setOnClickListener { viewModel.requestAddShopItem(domain) }
 
