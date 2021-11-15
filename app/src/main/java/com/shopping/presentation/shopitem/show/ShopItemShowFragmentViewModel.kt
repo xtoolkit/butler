@@ -11,7 +11,6 @@ import com.shopping.presentation.shopitem.show.converter.toShopItemShowUIItem
 import com.shopping.utils.modalalert.ModalAlertModel
 import com.shopping.utils.snackbar.SnackBarModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -23,21 +22,17 @@ class ShopItemShowFragmentViewModel(
     private val updateShopItemUC: UpdateShopItemUC,
     private val deleteShopItemUC: DeleteShopItemUC
 ) : TopAppViewModel<ShopItemShowEvents>() {
-    private var lastListJob: Job? = null
     private var isDone: Boolean? = false
     var isEdit = false
     val shopList = MutableStateFlow<ShopList?>(null)
     val items = MutableStateFlow(listOf<ShopItemShowUIItem>())
 
-    fun changeShopList(newId: Int) {
+    fun changeShopList(newId: Int) = viewModelScope.launch(Dispatchers.IO) {
         isEdit = false
         trigger(EDIT_MODE_CHANGED)
-        lastListJob?.cancel()
-        lastListJob = viewModelScope.launch(Dispatchers.IO) {
-            getShopListUC(ShopList(newId, "")).onSuccess {
-                shopList.emit(it)
-                changeShopItemsShow(false)
-            }
+        getShopListUC(ShopList(newId, "")).onSuccess {
+            shopList.emit(it)
+            changeShopItemsShow(false)
         }
     }
 
@@ -73,9 +68,9 @@ class ShopItemShowFragmentViewModel(
         if (shopItem.name.isBlank())
             return Result.failure(Exception("Shopitem name cannot be empty."))
 
-        items.value
-            .find { it.name == shopItem.name }
-            ?.let { return Result.failure(Exception("Item already exists.")) }
+        items.value.find { it.name == shopItem.name }?.let {
+            return Result.failure(Exception("Item already exists."))
+        }
 
         return Result.success(true)
     }
@@ -106,7 +101,7 @@ class ShopItemShowFragmentViewModel(
             if (isEdit && item.done && !item.updated) return@launch
         */
         val newItem = item.copy(done = !item.done, updated = true)
-        if(!isEdit) updateShopItemUC(shopList.value!! to newItem.toDomain())
+        if (!isEdit) updateShopItemUC(shopList.value!! to newItem.toDomain())
         items.emit(items.value.map { if (item.id == it.id) newItem else it })
     }
 }

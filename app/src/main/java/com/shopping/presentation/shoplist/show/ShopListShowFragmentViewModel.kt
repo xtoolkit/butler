@@ -14,24 +14,23 @@ import kotlinx.coroutines.launch
 class ShopListShowFragmentViewModel(private val getAllShopListUC: GetAllShopListUC) :
     TopAppViewModel<ShopListShowEvents>() {
     private var shopListsLoaded = false
-    val list = MutableStateFlow(listOf<ShopListShowUIItem>())
     private var select = 1
+    val list = MutableStateFlow(listOf<ShopListShowUIItem>())
 
-    fun selectShopList(shopListShowUIItem: ShopListShowUIItem, onlyUiUpdate: Boolean = false) =
-        viewModelScope.launch {
-            if (!onlyUiUpdate) trigger(REQUEST_CHANGE_SHOP_LIST, shopListShowUIItem.toDomain())
-            select = shopListShowUIItem.id
-            updateListUIState(list.value)
-        }
+    fun selectShopList(shopListShowUIItem: ShopListShowUIItem, onlyUiUpdate: Boolean = false) {
+        if (!onlyUiUpdate) trigger(REQUEST_CHANGE_SHOP_LIST, shopListShowUIItem.toDomain())
+        select = shopListShowUIItem.id
+        updateListUIState(list.value)
+    }
 
-    private suspend fun updateListUIState(input: List<ShopListShowUIItem>) {
+    private fun updateListUIState(input: List<ShopListShowUIItem>) {
         val output = input.map { it.copy() }
         output.forEachIndexed { i, item ->
             item.selected = item.id == select
             item.hideBorder = i == 0 || item.selected
             output.getOrNull(i - 1)?.takeIf { it.selected }?.let { item.hideBorder = true }
         }
-        list.emit(output)
+        list.value = output
     }
 
     fun start() = viewModelScope.launch(Dispatchers.IO) {
