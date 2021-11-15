@@ -8,7 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.shopping.core.domain.ShopList
 import com.shopping.databinding.FragmentShoplistManageBinding
-import com.shopping.presentation.shoplist.manage.ShopListManageEvents.*
+import com.shopping.presentation.shoplist.manage.ShopListManageEvents.NAME_ERROR
+import com.shopping.presentation.shoplist.manage.ShopListManageEvents.SHOW_ALERT
 import com.shopping.utils.snackbar.SnackBarModel
 import com.shopping.utils.snackbar.snackBarBuilder
 import kotlinx.coroutines.flow.collect
@@ -44,9 +45,12 @@ class ShopListManageFragment : Fragment() {
         lifecycleScope.launchWhenResumed { viewModel.shopList.collect { binding.shoplist = it } }
 
         viewModel.on(NAME_ERROR) { it: String? -> binding.listName.error = it }
-        viewModel.on(SHOW_ALERT) { it: SnackBarModel -> snackBarBuilder(binding.actionBox, it) }
 
-        binding.actionBox.setOnClickListener { viewModel.requestSave(domain) }
+        viewModel.on(SHOW_ALERT) { it: SnackBarModel ->
+            snackBarBuilder(binding.panelBottomPanel.btn, it)
+        }
+
+        binding.panelBottomPanel.btn.setOnClickListener { viewModel.requestSave(domain) }
 
         parentFragmentManager
             .setFragmentResultListener("shopListManageChanged", viewLifecycleOwner) { _, it ->

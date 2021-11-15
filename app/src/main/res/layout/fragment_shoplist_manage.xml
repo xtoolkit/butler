@@ -35,16 +35,11 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/list_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/EditBoxInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:hint="Shop list name"
-                app:boxBackgroundColor="@color/panel_2"
-                app:boxCornerRadiusBottomEnd="18dp"
-                app:boxCornerRadiusBottomStart="18dp"
-                app:boxCornerRadiusTopEnd="18dp"
-                app:boxCornerRadiusTopStart="18dp"
                 app:layout_constraintTop_toBottomOf="@id/page_title">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -56,16 +51,11 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/list_description"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/EditBoxInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:hint="Shop list Description"
-                app:boxBackgroundColor="@color/panel_2"
-                app:boxCornerRadiusBottomEnd="18dp"
-                app:boxCornerRadiusBottomStart="18dp"
-                app:boxCornerRadiusTopEnd="18dp"
-                app:boxCornerRadiusTopStart="18dp"
                 app:layout_constraintTop_toBottomOf="@id/list_name">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -78,38 +68,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
                 android:text="Delete shop list"
-                android:textColor="@color/design_default_color_error"
+                android:textColor="@android:color/holo_red_light"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/list_description" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/action_box"
-            style="@style/PanelBottomBox"
+        <include
+            android:id="@+id/panel_bottom_panel"
+            layout="@layout/layout_panel_buttom_botton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <ImageView
-                style="@style/PanelBottomBoxButton"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/add_btn_text"
-                style="@style/PanelBottomBoxText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="2dp"
-                android:text="Save"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="76dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:btnTitle='@{"Save"}' />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

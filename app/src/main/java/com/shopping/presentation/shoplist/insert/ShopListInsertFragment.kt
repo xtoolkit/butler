@@ -41,7 +41,7 @@ class ShopListInsertFragment : BottomSheetDialogFragment() {
         viewModel.on(NAME_VALIDITY) { it: String? -> binding.listName.error = it }
         viewModel.once(DISMISS_FRAGMENT) { dismiss() }
 
-        binding.submit.setOnClickListener { viewModel.addShopList(domain) }
+        binding.panelBottomPanel.btn.setOnClickListener { viewModel.addShopList(domain) }
     }
 
     override fun onDestroy() {

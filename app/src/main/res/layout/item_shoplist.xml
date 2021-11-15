@@ -39,9 +39,9 @@
                 android:id="@+id/selected_box"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_radoo_item_selected"
+                android:src="@drawable/ic_radoo_squircle_end"
                 android:visibility="@{shoplist.selected ? View.VISIBLE : View.INVISIBLE}"
-                app:layout_constraintDimensionRatio="1, 4.5"
+                app:layout_constraintDimensionRatio="1, 1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:tint="@color/panel_alt_2" />
 

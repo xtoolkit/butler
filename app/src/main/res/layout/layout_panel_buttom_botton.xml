@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="btnTitle"
+            type="String" />
+
+        <variable
+            name="btnIcon"
+            type="String" />
+
+        <variable
+            name="showBackground"
+            type="boolean" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="76dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/layout_panel_bottom"
+            android:backgroundTint="@color/panel_alt_2"
+            android:visibility="@{showBackground ? View.VISIBLE : View.GONE}" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/start_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_radoo_squircle_end"
+                app:layout_constraintDimensionRatio="1, 1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@color/button_style_1" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/button_style_1"
+                app:layout_constraintEnd_toStartOf="@id/start_btn"
+                app:layout_constraintStart_toEndOf="@id/end_btn" />
+
+            <ImageView
+                android:id="@+id/end_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:rotation="180"
+                android:src="@drawable/ic_radoo_squircle_end"
+                app:layout_constraintDimensionRatio="1, 1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:tint="@color/button_style_1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/btn"
+            app:layout_constraintEnd_toEndOf="@id/btn"
+            app:layout_constraintStart_toStartOf="@id/btn"
+            app:layout_constraintTop_toTopOf="@id/btn">
+
+            <ImageView
+                android:id="@+id/btn_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_baseline_add_24"
+                android:visibility='@{btnIcon == "add" ? View.VISIBLE : View.GONE}'
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/text_style_2" />
+
+            <TextView
+                android:id="@+id/add_btn_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="2dp"
+                android:gravity="center"
+                android:text="@{btnTitle, default=Title}"
+                android:textAllCaps="true"
+                android:textColor="@color/text_style_2"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/btn_icon"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

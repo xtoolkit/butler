@@ -59,51 +59,19 @@
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
             app:layoutManager="LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/action_box"
+            app:layout_constraintBottom_toTopOf="@id/panel_bottom_panel"
             app:layout_constraintTop_toBottomOf="@id/page_title"
             tools:listitem="@layout/item_shoplist" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/action_box"
-            style="@style/PanelBottomBox"
+        <include
+            android:id="@+id/panel_bottom_panel"
+            layout="@layout/layout_panel_buttom_botton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_height="76dp"
+            app:btnIcon='@{"add"}'
+            app:btnTitle='@{"Add new list"}'
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:showBackground="@{true}" />
 
-            <ImageView
-                style="@style/PanelBottomBoxButton"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    style="@style/PanelBottomBoxIcon"
-                    android:id="@+id/btn_icon"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_baseline_add_24"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <TextView
-                    android:id="@+id/add_btn_text"
-                    style="@style/PanelBottomBoxText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:text="@string/add_new_list"
-                    app:layout_constraintStart_toEndOf="@id/btn_icon"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

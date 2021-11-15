@@ -45,7 +45,7 @@ class ShopListShowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val binding = requireNotNull(binding)
 
-        binding.actionBox.setOnClickListener {
+        binding.panelBottomPanel.btn.setOnClickListener {
             get<ShopListInsertFragment>().show(childFragmentManager, null)
         }
 

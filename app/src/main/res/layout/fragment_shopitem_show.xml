@@ -75,7 +75,7 @@
 
         <include
             android:id="@+id/switch_layout"
-            layout="@layout/layout_fragment_shopitem_show_switch"
+            layout="@layout/layout_switch"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginHorizontal="16dp"
