@@ -46,23 +46,30 @@
                 app:layout_constraintStart_toStartOf="@id/background"
                 app:layout_constraintTop_toTopOf="@id/background" />
 
-            <TextView
-                android:id="@+id/title"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/title_box"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:gravity="center"
-                android:paddingVertical="16dp"
-                android:text="@{shopitem.name, default=title}"
-                android:textColor="@color/text_style_1"
-                android:textSize="14sp"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="8dp"
                 app:layout_constraintBottom_toTopOf="@id/quantity_box"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@{shopitem.name, default=title}"
+                    android:textColor="@color/text_style_1"
+                    android:textSize="14sp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/quantity_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/title">
+                app:layout_constraintTop_toBottomOf="@id/title_box">
 
                 <TextView
                     android:id="@+id/quantity"

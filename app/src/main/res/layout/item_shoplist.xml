@@ -63,7 +63,8 @@
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
-                    android:layout_height="16dp"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:text="@{shoplist.name, default=title}"
                     android:textColor="@color/text"
                     android:textSize="14sp"
@@ -73,9 +74,10 @@
                 <TextView
                     android:id="@+id/description"
                     android:layout_width="match_parent"
-                    android:layout_height="12dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:alpha="0.6"
+                    android:maxLines="1"
                     android:text="@{shoplist.description, default=Description}"
                     android:textColor="@color/text"
                     android:textSize="10sp"

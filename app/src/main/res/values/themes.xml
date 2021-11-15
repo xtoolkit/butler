@@ -57,6 +57,7 @@
     </style>
 
     <style name="PanelBottomBoxText">
+        <item name="android:gravity">center</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/text_style_2</item>
         <item name="android:textSize">16sp</item>
