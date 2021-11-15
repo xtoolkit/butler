@@ -101,8 +101,12 @@ class ShopItemShowFragmentViewModel(
     )
 
     fun requestToggleDone(item: ShopItemShowUIItem) = viewModelScope.launch(Dispatchers.IO) {
-        val newItem = item.copy(done = !item.done)
-        updateShopItemUC(shopList.value!! to newItem.toDomain())
+        /*
+            disable toggleDone when item default done in edit mode
+            if (isEdit && item.done && !item.updated) return@launch
+        */
+        val newItem = item.copy(done = !item.done, updated = true)
+        if(!isEdit) updateShopItemUC(shopList.value!! to newItem.toDomain())
         items.emit(items.value.map { if (item.id == it.id) newItem else it })
     }
 }
