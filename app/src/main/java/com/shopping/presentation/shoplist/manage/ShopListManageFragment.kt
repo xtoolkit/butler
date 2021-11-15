@@ -6,13 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.shopping.core.domain.ShopList
 import com.shopping.databinding.FragmentShoplistManageBinding
+import com.shopping.presentation.shoplist.manage.ShopListManageEvents.*
+import com.shopping.utils.snackbar.SnackBarModel
+import com.shopping.utils.snackbar.snackBarBuilder
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ShopListManageFragment : Fragment() {
     private var binding: FragmentShoplistManageBinding? = null
     private val viewModel: ShopListManageFragmentViewModel by viewModel()
+    private val domain: ShopList
+        get() {
+            val binding = requireNotNull(binding)
+            val description = binding.listDescription.editText!!.text.toString()
+            return ShopList(
+                viewModel.shopList.value!!.id,
+                binding.listName.editText!!.text.toString(),
+                if (description.isEmpty()) null else description
+            )
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +42,11 @@ class ShopListManageFragment : Fragment() {
         val binding = requireNotNull(binding)
 
         lifecycleScope.launchWhenResumed { viewModel.shopList.collect { binding.shoplist = it } }
+
+        viewModel.on(NAME_ERROR) { it: String? -> binding.listName.error = it }
+        viewModel.on(SHOW_ALERT) { it: SnackBarModel -> snackBarBuilder(binding.actionBox, it) }
+
+        binding.actionBox.setOnClickListener { viewModel.requestSave(domain) }
 
         parentFragmentManager
             .setFragmentResultListener("shopListManageChanged", viewLifecycleOwner) { _, it ->
