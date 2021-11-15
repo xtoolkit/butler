@@ -22,17 +22,19 @@ class ShopListManageFragmentViewModel(
         getShopListUC(ShopList(id, "")).onSuccess { shopList.emit(it) }
     }
 
-    private fun checkShopListValidity(shopList: ShopList): Result<Boolean> {
-        if (shopList.name.isBlank()) return Result.failure(Exception("Shop list name cannot be empty."))
+    private suspend fun checkShopListValidity(item: ShopList): Result<Boolean> {
+        if (item.name.isBlank()) return Result.failure(Exception("Shoplist name cannot be empty."))
+        if (shopList.value!!.name != item.name) getShopListUC(item.copy(0)).onSuccess {
+            return Result.failure(Exception("List name already exists."))
+        }
         return Result.success(true)
     }
 
-    fun requestSave(shopList: ShopList) = viewModelScope.launch(Dispatchers.IO) {
-        checkShopListValidity(shopList).onFailure { trigger(NAME_ERROR, it.message); return@launch }
-        updateShopListUC(shopList).onSuccess {
-            trigger(UPDATE_SUCCESS)
-            trigger(NAME_ERROR, null)
-            trigger(SHOW_ALERT, SnackBarModel("Your Shop list updated"))
-        }
+    fun requestSave(item: ShopList) = viewModelScope.launch(Dispatchers.IO) {
+        checkShopListValidity(item).onFailure { trigger(NAME_ERROR, it.message); return@launch }
+        if(item != shopList.value) updateShopListUC(item)
+        trigger(UPDATE_SUCCESS)
+        trigger(NAME_ERROR, null)
+        trigger(SHOW_ALERT, SnackBarModel("Your Shop list updated"))
     }
 }
