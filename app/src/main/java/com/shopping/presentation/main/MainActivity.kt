@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.discord.panels.OverlappingPanelsLayout
@@ -18,7 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity(), PanelsChildGestureRegionObserver.GestureRegionsListener {
     private var binding: ActivityMainBinding? = null
     private val viewModel: MainActivityViewModel by viewModel()
-    private val shopListId by lazy { intent.getIntExtra("shopListId", -1) }
+    private val setting by lazy { getSharedPreferences("mainActivitySetting", MODE_PRIVATE) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,8 @@ class MainActivity : AppCompatActivity(), PanelsChildGestureRegionObserver.Gestu
                 setFragmentResult("shopListManageChanged", bundleOf("id" to it))
             }
         }
-        viewModel.start(shopListId)
+
+        viewModel.start(setting.getInt("lastListSelected", -1))
 
         overlappingPanels.apply {
             registerStartPanelStateListeners(object : OverlappingPanelsLayout.PanelStateListener {
@@ -62,7 +64,9 @@ class MainActivity : AppCompatActivity(), PanelsChildGestureRegionObserver.Gestu
 
         supportFragmentManager.apply {
             setFragmentResultListener("onSelectedShopListChange", this@MainActivity) { _, it ->
-                viewModel.changeShowShopList(it.getInt("id"))
+                val id = it.getInt("id")
+                viewModel.changeShowShopList(id)
+                setting.edit { putInt("lastListSelected", id) }
             }
 
             setFragmentResultListener("openShopListMenu", this@MainActivity) { _, _ ->
