@@ -1,13 +1,13 @@
 package io.github.xtoolkit.butler.shopping.presentation.shopitem.show
 
 import androidx.lifecycle.viewModelScope
-import io.github.xtoolkit.butler.utils.BaseViewModel
 import io.github.xtoolkit.butler.shopping.core.domain.ShopItem
 import io.github.xtoolkit.butler.shopping.core.domain.ShopList
 import io.github.xtoolkit.butler.shopping.core.interactor.*
 import io.github.xtoolkit.butler.shopping.presentation.shopitem.show.ShopItemShowEvents.*
 import io.github.xtoolkit.butler.shopping.presentation.shopitem.show.converter.toDomain
 import io.github.xtoolkit.butler.shopping.presentation.shopitem.show.converter.toShopItemShowUIItem
+import io.github.xtoolkit.butler.utils.BaseViewModel
 import io.github.xtoolkit.butler.utils.modalalert.ModalAlertModel
 import io.github.xtoolkit.butler.utils.snackbar.SnackBarModel
 import kotlinx.coroutines.Dispatchers
@@ -77,7 +77,10 @@ class ShopItemShowFragmentViewModel(
 
     fun requestAddShopItem(item: ShopItemShowUIItem) = checkNewShopItemValidity(item.toDomain())
         .onFailure { trigger(SHOW_ALERT, SnackBarModel(it.message!!)) }
-        .onSuccess { items.value = items.value.toMutableList().apply { add(item) } }
+        .onSuccess {
+            items.value = items.value.toMutableList().apply { add(item) }
+            trigger(CREATE_ITEM)
+        }
 
     fun requestChangeQuantity(item: ShopItemShowUIItem, newQuantity: Int) =
         items.value.find { it.id == item.id }?.let {

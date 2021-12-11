@@ -73,13 +73,15 @@ class ShopItemShowFragment : Fragment() {
         binding.list.adapter = adapter
         binding.list.layoutManager = GridLayoutManager(requireContext(), if (isLandscape) 5 else 3)
 
-        lifecycleScope.launchWhenResumed { viewModel.shopList.collect { binding.shoplist = it } }
+        lifecycleScope.launchWhenResumed { viewModel.shopList.collect { binding.shopList = it } }
 
         lifecycleScope.launchWhenResumed { viewModel.items.collect { adapter.submitList(it) } }
 
         viewModel.on(SHOW_ALERT) { it: SnackBarModel -> snackBarBuilder(binding.list, it) }
 
         viewModel.on(SHOW_MODAL) { it: ModalAlertModel -> modalAlertBuilder(requireContext(), it) }
+
+        viewModel.on(CREATE_ITEM) { binding.input.setText("") }
 
         viewModel.on(EDIT_MODE_CHANGED) {
             binding.isEdit = viewModel.isEdit

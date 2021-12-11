@@ -11,7 +11,7 @@
             type="boolean" />
 
         <variable
-            name="shoplist"
+            name="shopList"
             type="io.github.xtoolkit.butler.shopping.core.domain.ShopList" />
 
         <import type="android.view.View" />
@@ -21,133 +21,185 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/menu"
-            android:layout_width="24dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_radoo_icon_menu"
-            app:layout_constraintBottom_toBottomOf="@id/page_title"
-            app:layout_constraintDimensionRatio="1, 1"
-            app:layout_constraintEnd_toStartOf="@id/page_title"
-            app:layout_constraintTop_toTopOf="@id/page_title"
-            app:tint="@color/text_style_1" />
-
-        <TextView
-            android:id="@+id/page_title"
-            style="@style/PanelHeader"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="26dp"
-            android:maxLines="1"
-            android:layout_marginStart="48dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center"
-            android:text="@{shoplist.name, default=Title}"
-            app:layout_constraintBottom_toTopOf="@id/switch_layout"
-            app:layout_constraintEnd_toStartOf="@id/more"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/more"
-            android:layout_width="30dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_radoo_icon_btn"
-            app:layout_constraintBottom_toBottomOf="@id/page_title"
-            app:layout_constraintDimensionRatio="1, 1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/page_title"
-            app:tint="#E4E8FF" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="8dp"
-            android:rotation="90"
-            android:src="@drawable/ic_radoo_icon_more"
-            app:layout_constraintBottom_toBottomOf="@id/more"
-            app:layout_constraintEnd_toEndOf="@id/more"
-            app:layout_constraintStart_toStartOf="@id/more"
-            app:layout_constraintTop_toTopOf="@id/more"
-            app:tint="#526DFE" />
-
-        <include
-            android:id="@+id/switch_layout"
-            layout="@layout/layout_switch"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginHorizontal="16dp"
-            android:visibility="@{isEdit ? View.INVISIBLE : View.VISIBLE}"
-            app:btnFirst="@{@string/items}"
-            app:btnSecond="@{@string/done}"
-            app:layout_constraintBottom_toTopOf="@id/list"
-            app:layout_constraintTop_toBottomOf="@id/page_title" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/insert_box"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="@{isEdit ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@id/switch_layout"
-            app:layout_constraintEnd_toEndOf="@id/switch_layout"
-            app:layout_constraintStart_toStartOf="@id/switch_layout"
-            app:layout_constraintTop_toTopOf="@id/switch_layout">
+            android:id="@+id/header_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
-                android:id="@+id/input"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:autofillHints="name"
-                android:background="@drawable/circle"
-                android:backgroundTint="@color/panel_2"
-                android:hint="@string/type_here_too_add_an_item"
-                android:inputType="textShortMessage"
-                android:paddingHorizontal="16dp"
-                android:singleLine="true"
-                android:textColor="@color/text"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/submit"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/header_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{isEdit ? View.GONE : View.VISIBLE}"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/submit"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:src="@drawable/circle"
-                app:layout_constraintBottom_toBottomOf="@id/input"
-                app:layout_constraintDimensionRatio="1, 1"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/input"
-                app:tint="#526DFE" />
+                <ImageView
+                    android:id="@+id/menu"
+                    android:layout_width="24dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_radoo_icon_menu"
+                    app:layout_constraintBottom_toBottomOf="@id/page_title"
+                    app:layout_constraintDimensionRatio="1, 1"
+                    app:layout_constraintEnd_toStartOf="@id/page_title"
+                    app:layout_constraintTop_toTopOf="@id/page_title"
+                    app:tint="@color/text_style_1" />
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="18dp"
-                android:layout_marginStart="2dp"
-                android:src="@drawable/ic_radoo_icon_send"
-                app:layout_constraintBottom_toBottomOf="@id/submit"
-                app:layout_constraintEnd_toEndOf="@id/submit"
-                app:layout_constraintStart_toStartOf="@id/submit"
-                app:layout_constraintTop_toTopOf="@id/submit"
-                app:tint="#FFFFFF" />
+                <TextView
+                    android:id="@+id/page_title"
+                    style="@style/PanelHeader"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="26dp"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@{shopList.name, default=Title}"
+                    app:layout_constraintBottom_toTopOf="@id/switch_layout"
+                    app:layout_constraintEnd_toStartOf="@id/more"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/more"
+                    android:layout_width="30dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_radoo_icon_btn"
+                    app:layout_constraintBottom_toBottomOf="@id/page_title"
+                    app:layout_constraintDimensionRatio="1, 1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/page_title"
+                    app:tint="#E4E8FF" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:padding="8dp"
+                    android:rotation="90"
+                    android:src="@drawable/ic_radoo_icon_more"
+                    app:layout_constraintBottom_toBottomOf="@id/more"
+                    app:layout_constraintEnd_toEndOf="@id/more"
+                    app:layout_constraintStart_toStartOf="@id/more"
+                    app:layout_constraintTop_toTopOf="@id/more"
+                    app:tint="#526DFE" />
+
+                <include
+                    android:id="@+id/switch_layout"
+                    layout="@layout/layout_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="20dp"
+                    app:btnFirst="@{@string/items}"
+                    app:btnSecond="@{@string/done}"
+                    app:layout_constraintTop_toBottomOf="@id/page_title" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/header_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{isEdit ? View.VISIBLE : View.GONE}"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_baseline_arrow_back_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="#526DFE" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/insert_box"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="12dp"
+                    android:visibility="@{isEdit ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/back"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/fragment_shopitem_show_item"
+                        android:backgroundTint="@color/panel_2" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/fragment_shopitem_show_item" />
+
+                    <EditText
+                        android:id="@+id/input"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="8dp"
+                        android:autofillHints="name"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/type_here_too_add_an_item"
+                        android:inputType="textShortMessage"
+                        android:paddingHorizontal="16dp"
+                        android:singleLine="true"
+                        android:textColor="@color/text"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/submit"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/submit"
+                        android:layout_margin="6dp"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/ic_radoo_icon_btn"
+                        app:layout_constraintBottom_toBottomOf="@id/input"
+                        app:layout_constraintDimensionRatio="1, 1"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/input"
+                        app:tint="#526DFE" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_baseline_add_24"
+                        app:layout_constraintBottom_toBottomOf="@id/submit"
+                        app:layout_constraintEnd_toEndOf="@id/submit"
+                        app:layout_constraintStart_toStartOf="@id/submit"
+                        app:layout_constraintTop_toTopOf="@id/submit"
+                        app:tint="#FFFFFF" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/panel_alt_2"
+                    app:layout_constraintTop_toBottomOf="@id/insert_box" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="26dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:paddingHorizontal="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/switch_layout"
+            app:layout_constraintTop_toBottomOf="@id/header_box"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="0dp"
             tools:listitem="@layout/item_shopitem" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
