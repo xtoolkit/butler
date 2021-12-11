@@ -49,6 +49,21 @@ class ShopItemShowFragmentViewModel(
         }
     }
 
+    fun requestBackToUnEdit() {
+        val unEdit = {
+            isEdit = false
+            changeShopItemsShow(false)
+            trigger(EDIT_MODE_CHANGED)
+        }
+        if (items.value.find { it.isNew || it.updated } == null) unEdit() else trigger(
+            SHOW_MODAL, ModalAlertModel(
+                "Warning",
+                "Are you sure exit app without save list?",
+                onPositive = unEdit
+            )
+        )
+    }
+
     fun toggleEdit() = viewModelScope.launch(Dispatchers.IO) {
         isEdit = !isEdit
         if (isEdit) changeShopItemsShow(null)
