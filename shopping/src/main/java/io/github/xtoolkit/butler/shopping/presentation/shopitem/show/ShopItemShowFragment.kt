@@ -87,6 +87,9 @@ class ShopItemShowFragment : Fragment() {
             binding.isEdit = viewModel.isEdit
             adapter.notifyItemRangeChanged(0, viewModel.items.value.size)
             binding.switchLayout.box.transitionToStart()
+            parentFragmentManager.setFragmentResult(
+                "requestLockPanel", bundleOf("lock" to viewModel.isEdit)
+            )
         }
 
         binding.menu.setOnClickListener {

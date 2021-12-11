@@ -85,6 +85,13 @@ class MainActivity : AppCompatActivity(), PanelsChildGestureRegionObserver.Gestu
             setFragmentResultListener("requestOpenShopListSetting", this@MainActivity) { _, _ ->
                 overlappingPanels.openEndPanel()
             }
+
+            setFragmentResultListener("requestLockPanel", this@MainActivity) { _, it ->
+                val state =
+                    if (it.getBoolean("lock")) OverlappingPanelsLayout.LockState.CLOSE else OverlappingPanelsLayout.LockState.UNLOCKED
+                overlappingPanels.setEndPanelLockState(state)
+                overlappingPanels.setStartPanelLockState(state)
+            }
         }
     }
 
