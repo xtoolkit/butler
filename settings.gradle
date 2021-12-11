@@ -1,4 +1,4 @@
-rootProject.name = "shopping"
+rootProject.name = "butler"
 include ':app'
-include ':core'
-include ':suggestion'
+include ':utils'
+include ':shopping'

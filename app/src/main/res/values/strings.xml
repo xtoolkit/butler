@@ -1,11 +1,3 @@
 <resources>
     <string name="app_name">Butler</string>
-    <string name="all">All</string>
-    <string name="done">Done</string>
-    <string name="items">Items</string>
-    <string name="shopping_lists">Shopping Lists</string>
-    <string name="add_new_list">Add new list</string>
-    <string name="light">Light</string>
-    <string name="dark">Dark</string>
-    <string name="type_here_too_add_an_item">Type here too add an item</string>
 </resources>

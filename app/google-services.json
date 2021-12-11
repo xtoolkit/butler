@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1029346104842",
+    "project_id": "xtoolkit-butler",
+    "storage_bucket": "xtoolkit-butler.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029346104842:android:ae059ee16627e4c7f331f3",
+        "android_client_info": {
+          "package_name": "io.github.xtoolkit.butler"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029346104842-pqoaspjgsqdhhm4b45t4ao1k1aasndgm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChVGKXAHzVBL9-B8c99y6QgW17CTqnYgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029346104842-pqoaspjgsqdhhm4b45t4ao1k1aasndgm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

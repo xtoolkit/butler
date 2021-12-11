@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.shopping">
+    package="io.github.xtoolkit.butler">
 
     <application
-        android:name=".framework.TopAppApplication"
+        android:name=".framework.ButlerApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,6 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".shopping.presentation.main.MainActivity" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

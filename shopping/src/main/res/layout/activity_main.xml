@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.main.MainActivity">
+
+    <com.discord.panels.OverlappingPanelsLayout
+        android:id="@+id/overlapping_panels"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/root"
+        android:fitsSystemWindows="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/start_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/start_panel_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/start_fragment"
+                    android:name="io.github.xtoolkit.butler.shopping.presentation.shoplist.show.ShopListShowFragment"
+                    style="@style/StartPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tag="startPanel" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/center_panel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/center_panel_background"
+                style="@style/CenterPanelBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/center_panel_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/center_fragment"
+                    android:name="io.github.xtoolkit.butler.shopping.presentation.shopitem.show.ShopItemShowFragment"
+                    style="@style/CenterPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tag="centerPanel" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/end_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/end_panel_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/end_fragment"
+                    android:name="io.github.xtoolkit.butler.shopping.presentation.shoplist.manage.ShopListManageFragment"
+                    style="@style/EndPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tag="endPanel" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.discord.panels.OverlappingPanelsLayout>
+</layout>
