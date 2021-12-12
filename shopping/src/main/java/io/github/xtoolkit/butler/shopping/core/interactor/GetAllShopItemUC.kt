@@ -3,7 +3,7 @@ package io.github.xtoolkit.butler.shopping.core.interactor
 import io.github.xtoolkit.butler.shopping.core.data.repositories.ShopItemRepo
 import io.github.xtoolkit.butler.shopping.core.domain.ShopItem
 import io.github.xtoolkit.butler.shopping.core.domain.ShopList
-import io.github.xtoolkit.butler.shopping.core.interactor.base.BaseUseCase
+import io.github.xtoolkit.butler.utils.BaseUseCase
 import kotlinx.coroutines.flow.Flow
 
 class GetAllShopItemUC(shopItemRepo: ShopItemRepo) :

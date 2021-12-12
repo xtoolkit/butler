@@ -1,4 +1,4 @@
-package io.github.xtoolkit.butler.shopping.core.interactor.base
+package io.github.xtoolkit.butler.utils
 
 abstract class BaseUseCase<in IN, OUT, REPO>(protected val repo: REPO) {
     suspend operator fun invoke(parameter: IN): Result<OUT> = try {

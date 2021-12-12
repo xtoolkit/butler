@@ -3,7 +3,7 @@ package io.github.xtoolkit.butler.shopping.core.interactor
 import io.github.xtoolkit.butler.shopping.core.data.repositories.ShopItemRepo
 import io.github.xtoolkit.butler.shopping.core.domain.ShopItem
 import io.github.xtoolkit.butler.shopping.core.domain.ShopList
-import io.github.xtoolkit.butler.shopping.core.interactor.base.BaseUseCase
+import io.github.xtoolkit.butler.utils.BaseUseCase
 
 class AddShopItemUC(shopItemRepo: ShopItemRepo) :
     BaseUseCase<Pair<ShopList, ShopItem>, ShopItem, ShopItemRepo>(shopItemRepo) {
