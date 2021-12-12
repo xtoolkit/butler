@@ -105,6 +105,11 @@ class ShopItemShowFragment : Fragment() {
             viewModel.toggleEdit()
         }
 
+        binding.save.setOnClickListener {
+            binding.list.requestFocus()
+            viewModel.toggleEdit()
+        }
+
         binding.submit.setOnClickListener { viewModel.requestAddShopItem(domain) }
 
         binding.more.setOnClickListener {

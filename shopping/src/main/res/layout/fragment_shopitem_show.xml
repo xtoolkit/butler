@@ -158,9 +158,9 @@
 
                     <ImageView
                         android:id="@+id/submit"
-                        android:layout_margin="6dp"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
+                        android:layout_margin="6dp"
                         android:src="@drawable/ic_radoo_icon_btn"
                         app:layout_constraintBottom_toBottomOf="@id/input"
                         app:layout_constraintDimensionRatio="1, 1"
@@ -209,9 +209,44 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/green"
-            android:src="@{isEdit ? @drawable/ic_round_done_24 : @drawable/ic_round_edit_24}"
+            android:src="@drawable/ic_round_edit_24"
+            android:visibility="@{isEdit ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:tint="#ffffff" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginBottom="20dp"
+            android:elevation="8dp"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/green"
+            android:visibility="@{isEdit ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:padding="6dp"
+                android:src="@drawable/ic_round_done_24"
+                app:layout_constraintDimensionRatio="1, .8"
+                app:layout_constraintEnd_toStartOf="@id/save_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:tint="#fff" />
+
+            <TextView
+                android:id="@+id/save_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:text="Save"
+                android:textColor="#fff"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
