@@ -12,7 +12,7 @@ import io.github.xtoolkit.butler.shopping.framework.db.entity.ShopListEntity
     version = 1,
     exportSchema = false
 )
-abstract class TopAppDatabase : RoomDatabase() {
+abstract class ButlerDatabase : RoomDatabase() {
     abstract fun shopItemDao(): ShopItemDao
     abstract fun shopListDao(): ShopListDao
 }
