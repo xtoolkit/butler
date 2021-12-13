@@ -2,7 +2,7 @@ package io.github.xtoolkit.butler.framework
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import io.github.xtoolkit.butler.framework.di.*
+import io.github.xtoolkit.butler.framework.di.databaseModule
 import io.github.xtoolkit.butler.shopping.framework.shoppingKoinModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
