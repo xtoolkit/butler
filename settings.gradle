@@ -2,3 +2,4 @@ rootProject.name = "butler"
 include ':app'
 include ':utils'
 include ':shopping'
+include ':shopping:core'
