@@ -209,7 +209,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/green"
-            android:src="@drawable/ic_round_edit_24"
+            android:src="@drawable/ic_baseline_add_24"
             android:visibility="@{isEdit ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
