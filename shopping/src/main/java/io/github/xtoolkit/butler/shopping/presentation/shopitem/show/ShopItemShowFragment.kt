@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -108,6 +109,14 @@ class ShopItemShowFragment : Fragment() {
         binding.save.setOnClickListener {
             binding.list.requestFocus()
             viewModel.toggleEdit()
+        }
+
+        binding.input.setOnEditorActionListener { _, id, event ->
+            if (id == EditorInfo.IME_ACTION_DONE && event == null) {
+                viewModel.requestAddShopItem(domain)
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
         }
 
         binding.submit.setOnClickListener { viewModel.requestAddShopItem(domain) }
