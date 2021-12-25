@@ -81,7 +81,8 @@
             layout="@layout/layout_panel_buttom_botton"
             android:layout_width="match_parent"
             android:layout_height="76dp"
+            app:btnTitle='@{"Save"}'
             app:layout_constraintBottom_toBottomOf="parent"
-            app:btnTitle='@{"Save"}' />
+            app:showBackground="@{true}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
