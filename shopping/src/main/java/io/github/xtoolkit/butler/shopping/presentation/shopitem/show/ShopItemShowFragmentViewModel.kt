@@ -118,8 +118,9 @@ class ShopItemShowFragmentViewModel(
             disable toggleDone when item default done in edit mode
             if (isEdit && item.done && !item.updated) return@launch
         */
+        if (isEdit) return@launch
         val newItem = item.copy(done = !item.done, updated = true)
-        if (!isEdit) updateShopItemUC(shopList.value!! to newItem.toDomain())
+        updateShopItemUC(shopList.value!! to newItem.toDomain())
         items.emit(items.value.map { if (item.id == it.id) newItem else it })
     }
 }

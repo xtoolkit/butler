@@ -39,7 +39,7 @@ class ShopItemShowFragment : Fragment() {
                 if (!isInput) input.setText(newQuality.toString())
             } else viewModel.requestDeleteShopItem(it)
         }
-        background.setOnClickListener { _ -> input.clearFocus(); viewModel.requestToggleDone(it) }
+        background.setOnClickListener { _ -> viewModel.requestToggleDone(it) }
         add.setOnClickListener { _ -> changeQuality(it.quantity + 1, false) }
         remove.setOnClickListener { _ -> changeQuality(it.quantity - 1, false) }
         input.setOnKeyListener { _, _, _ ->
