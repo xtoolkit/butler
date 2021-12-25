@@ -68,27 +68,15 @@
 
                 <ImageView
                     android:id="@+id/more"
-                    android:layout_width="30dp"
-                    android:layout_height="0dp"
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
-                    android:src="@drawable/ic_radoo_icon_btn"
+                    android:rotation="90"
+                    android:src="@drawable/ic_radoo_icon_more"
                     app:layout_constraintBottom_toBottomOf="@id/page_title"
-                    app:layout_constraintDimensionRatio="1, 1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/page_title"
                     app:tint="#E4E8FF" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:padding="8dp"
-                    android:rotation="90"
-                    android:src="@drawable/ic_radoo_icon_more"
-                    app:layout_constraintBottom_toBottomOf="@id/more"
-                    app:layout_constraintEnd_toEndOf="@id/more"
-                    app:layout_constraintStart_toStartOf="@id/more"
-                    app:layout_constraintTop_toTopOf="@id/more"
-                    app:tint="#526DFE" />
 
                 <include
                     android:id="@+id/switch_layout"
