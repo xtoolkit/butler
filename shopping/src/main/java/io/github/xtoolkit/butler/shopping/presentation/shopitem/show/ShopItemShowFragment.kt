@@ -75,7 +75,12 @@ class ShopItemShowFragment : Fragment() {
 
         lifecycleScope.launchWhenResumed { viewModel.shopList.collect { binding.shopList = it } }
 
-        lifecycleScope.launchWhenResumed { viewModel.items.collect { adapter.submitList(it) } }
+        lifecycleScope.launchWhenResumed {
+            viewModel.items.collect {
+                binding.itemsNumber = it.size
+                adapter.submitList(it)
+            }
+        }
 
         viewModel.on(SHOW_ALERT) { it: SnackBarModel -> snackBarBuilder(binding.list, it) }
 
@@ -135,9 +140,9 @@ class ShopItemShowFragment : Fragment() {
             viewModel.changeShopItemsShow(true)
         }
 
-        binding.back.setOnClickListener {
-            viewModel.requestBackToUnEdit()
-        }
+        binding.back.setOnClickListener { viewModel.requestBackToUnEdit() }
+
+        binding.empty.setOnClickListener { }
     }
 
     override fun onDestroy() {
