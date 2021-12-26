@@ -22,7 +22,7 @@ class ShopItemShowFragmentViewModel(
     private val updateShopItemUC: UpdateShopItemUC,
     private val deleteShopItemUC: DeleteShopItemUC
 ) : BaseViewModel<ShopItemShowEvents>() {
-    private var isDone: Boolean? = false
+    var isDone: Boolean? = false
     var isEdit = false
     val shopList = MutableStateFlow<ShopList?>(null)
     val items = MutableStateFlow(listOf<ShopItemShowUIItem>())

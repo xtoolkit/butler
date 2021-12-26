@@ -77,7 +77,7 @@ class ShopItemShowFragment : Fragment() {
 
         lifecycleScope.launchWhenResumed {
             viewModel.items.collect {
-                binding.itemsNumber = it.size
+                if (viewModel.isDone == false) binding.itemsNumber = it.size
                 adapter.submitList(it)
             }
         }
