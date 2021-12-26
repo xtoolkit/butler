@@ -8,4 +8,5 @@ interface ShopListDS {
     suspend fun get(shopList: ShopList): Result<ShopList>
     suspend fun getAll(): Result<Flow<List<ShopList>>>
     suspend fun update(shopList: ShopList): Result<ShopList>
+    suspend fun delete(shopList: ShopList): Result<ShopList>
 }
