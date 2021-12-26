@@ -92,6 +92,10 @@ class MainActivity : AppCompatActivity(), PanelsChildGestureRegionObserver.Gestu
                 overlappingPanels.setEndPanelLockState(state)
                 overlappingPanels.setStartPanelLockState(state)
             }
+
+            setFragmentResultListener("deleteActiveShopList", this@MainActivity) { _, _ ->
+                viewModel.start(-1)
+            }
         }
     }
 

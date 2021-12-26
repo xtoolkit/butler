@@ -1,11 +1,13 @@
 package io.github.xtoolkit.butler.shopping.presentation.shoplist.manage
 
 import androidx.lifecycle.viewModelScope
-import io.github.xtoolkit.butler.utils.BaseViewModel
 import io.github.xtoolkit.butler.shopping.core.domain.ShopList
+import io.github.xtoolkit.butler.shopping.core.interactor.DeleteShopListUC
 import io.github.xtoolkit.butler.shopping.core.interactor.GetShopListUC
 import io.github.xtoolkit.butler.shopping.core.interactor.UpdateShopListUC
 import io.github.xtoolkit.butler.shopping.presentation.shoplist.manage.ShopListManageEvents.*
+import io.github.xtoolkit.butler.utils.BaseViewModel
+import io.github.xtoolkit.butler.utils.modalalert.ModalAlertModel
 import io.github.xtoolkit.butler.utils.snackbar.SnackBarModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +15,8 @@ import kotlinx.coroutines.launch
 
 class ShopListManageFragmentViewModel(
     private val getShopListUC: GetShopListUC,
-    private val updateShopListUC: UpdateShopListUC
+    private val updateShopListUC: UpdateShopListUC,
+    private val deleteShopListUC: DeleteShopListUC
 ) : BaseViewModel<ShopListManageEvents>() {
     val shopList = MutableStateFlow<ShopList?>(null)
 
@@ -37,4 +40,15 @@ class ShopListManageFragmentViewModel(
         trigger(NAME_ERROR, null)
         trigger(SHOW_ALERT, SnackBarModel("Your Shop list updated"))
     }
+
+    fun requestDelete() = trigger(
+        SHOW_MODAL,
+        ModalAlertModel("Warning!", "Are you sure delete ${shopList.value?.name}") {
+            viewModelScope.launch(Dispatchers.IO) {
+                deleteShopListUC(shopList.value!!)
+                    .onSuccess { trigger(DELETE_SUCCESS) }
+                    .onFailure { trigger(SHOW_ALERT, SnackBarModel(it.message!!)) }
+            }
+        }
+    )
 }

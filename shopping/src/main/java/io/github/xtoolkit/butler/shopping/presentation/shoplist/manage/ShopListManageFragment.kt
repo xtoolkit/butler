@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import io.github.xtoolkit.butler.shopping.core.domain.ShopList
 import io.github.xtoolkit.butler.shopping.databinding.FragmentShoplistManageBinding
-import io.github.xtoolkit.butler.shopping.presentation.shoplist.manage.ShopListManageEvents.NAME_ERROR
-import io.github.xtoolkit.butler.shopping.presentation.shoplist.manage.ShopListManageEvents.SHOW_ALERT
+import io.github.xtoolkit.butler.shopping.presentation.shoplist.manage.ShopListManageEvents.*
+import io.github.xtoolkit.butler.utils.modalalert.ModalAlertModel
+import io.github.xtoolkit.butler.utils.modalalert.modalAlertBuilder
 import io.github.xtoolkit.butler.utils.snackbar.SnackBarModel
 import io.github.xtoolkit.butler.utils.snackbar.snackBarBuilder
 import kotlinx.coroutines.flow.collect
@@ -49,6 +51,14 @@ class ShopListManageFragment : Fragment() {
         viewModel.on(SHOW_ALERT) { it: SnackBarModel ->
             snackBarBuilder(binding.panelBottomPanel.btn, it)
         }
+
+        viewModel.on(SHOW_MODAL) { it: ModalAlertModel -> modalAlertBuilder(requireContext(), it) }
+
+        viewModel.on(DELETE_SUCCESS) {
+            parentFragmentManager.setFragmentResult("deleteActiveShopList", bundleOf())
+        }
+
+        binding.delete.setOnClickListener { viewModel.requestDelete() }
 
         binding.panelBottomPanel.btn.setOnClickListener { viewModel.requestSave(domain) }
 

@@ -10,5 +10,5 @@ val repos = module {
     single { LocalShopItemDS(get()) }
     single { ShopItemRepo(get<LocalShopItemDS>()) }
     single { LocalShopListDS(get()) }
-    single { ShopListRepo(get<LocalShopListDS>()) }
+    single { ShopListRepo(get<LocalShopListDS>(), get<LocalShopItemDS>()) }
 }

@@ -2,13 +2,13 @@ package io.github.xtoolkit.butler.shopping.presentation.main
 
 import androidx.lifecycle.viewModelScope
 import com.discord.panels.PanelState
-import io.github.xtoolkit.butler.utils.BaseViewModel
 import io.github.xtoolkit.butler.shopping.core.domain.ShopList
 import io.github.xtoolkit.butler.shopping.core.interactor.AddShopListUC
 import io.github.xtoolkit.butler.shopping.core.interactor.GetAllShopListUC
 import io.github.xtoolkit.butler.shopping.core.interactor.GetShopListUC
 import io.github.xtoolkit.butler.shopping.presentation.main.MainActivityEvents.CLOSE_PANELS
 import io.github.xtoolkit.butler.shopping.presentation.main.MainActivityEvents.SHOW_SHOP_LIST_ITEMS
+import io.github.xtoolkit.butler.utils.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -41,7 +41,7 @@ class MainActivityViewModel(
     }
 
     fun start(id: Int) = viewModelScope.launch(Dispatchers.IO) {
-        if (lastShopListId != -1) return@launch
+        if (lastShopListId != -1 && id != -1) return@launch
         getAllShopListUC(Unit)
             .onSuccess {
                 val list = it.first()
