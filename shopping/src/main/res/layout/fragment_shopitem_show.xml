@@ -15,7 +15,7 @@
             type="io.github.xtoolkit.butler.shopping.core.domain.ShopList" />
 
         <variable
-            name="items_number"
+            name="itemsNumber"
             type="Integer" />
 
         <import type="android.view.View" />
@@ -206,8 +206,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/green"
-            android:src="@drawable/ic_baseline_add_24"
+            android:backgroundTint="@color/ultramarine"
+            android:src="@{itemsNumber > 0 ? @drawable/ic_round_edit_24 : @drawable/ic_baseline_add_24}"
             android:visibility="@{isEdit ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -253,7 +253,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="72dp"
             android:background="@color/panel"
-            android:visibility="@{isEdit || items_number > 0 ? View.GONE : View.VISIBLE}"
+            android:visibility="@{isEdit || itemsNumber > 0 ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
