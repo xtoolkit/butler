@@ -31,7 +31,7 @@
             app:layout_constraintEnd_toEndOf="@id/btn_1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#526DFE" />
+            app:tint="@color/ultramarine" />
 
         <TextView
             android:id="@+id/btn_1"
