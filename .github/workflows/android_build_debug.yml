@@ -21,6 +21,15 @@ jobs:
       - name: Build Project
         run: ./gradlew :app:assembleDebug
 
+      - name: Sign
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/apk/debug
+          signingKeyBase64: ${{ secrets.SIGN_KEY }}
+          alias: ${{ secrets.SIGN_ALIAS }}
+          keyStorePassword: ${{ secrets.SIGN_KEY_PASSWORD }}
+          keyPassword: ${{ secrets.SIGN_KEY_PASSWORD }}
+
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
