@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      aap: ${{steps.sign_aap.outputs.signedReleaseFile}}
+      aap: ${{ steps.sign_aap.outputs.signedReleaseFile }}
 
     steps:
       - uses: actions/checkout@v2
@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      apk: ${{steps.sign_apk.outputs.signedReleaseFile}}
+      apk: ${{ steps.sign_apk.outputs.signedReleaseFile }}
 
     steps:
       - uses: actions/checkout@v2
@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      apk: ${{steps.sign_apk.outputs.signedReleaseFile}}
+      apk: ${{ steps.sign_apk.outputs.signedReleaseFile }}
 
     steps:
       - uses: actions/checkout@v2
@@ -116,10 +116,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: export needs
+        run: echo ${{ needs }} ${{ needs.build_aap }} ${{ needs.build_aap.outputs }} ${{ needs.build_aap.outputs.aap }}
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${{needs.build_aap.outputs.aap}}
-            ${{needs.build_debug_apk.outputs.apk}}
-            ${{needs.build_release_apk.outputs.apk}}
+            ${{ needs.build_aap.outputs.aap }}
+            ${{ needs.build_debug_apk.outputs.apk }}
+            ${{ needs.build_release_apk.outputs.apk }}
