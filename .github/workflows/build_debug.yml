@@ -1,4 +1,4 @@
-name: Android Build
+name: Build Debug APK
 
 on: pull_request
 
@@ -18,13 +18,13 @@ jobs:
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
 
-      - name: Clean cache
+      - name: Clean project
         run: ./gradlew clean
 
-      - name: Build Project
+      - name: Build Debug APK
         run: ./gradlew :app:assembleDebug
 
-      - name: Sign
+      - name: Sign APK
         uses: r0adkll/sign-android-release@v1
         with:
           releaseDirectory: app/build/outputs/apk/debug
@@ -36,5 +36,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: butler-apk-debug-signed
+          name: apk-debug
           path: app/build/outputs/apk/debug/app-debug-signed.apk

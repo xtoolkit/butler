@@ -1,0 +1,125 @@
+name: Publish Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build AAP:
+    runs-on: ubuntu-latest
+
+    outputs:
+      aap: ${{steps.sign_aap.outputs.signedReleaseFile}}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: "temurin"
+          java-version: "11"
+
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
+      - name: Clean project
+        run: ./gradlew clean
+
+      - name: Build Release AAP
+        run: ./gradlew :app:bundleRelease
+
+      - name: Sign AAP
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/bundle/release
+          signingKeyBase64: ${{ secrets.SIGN_KEY }}
+          alias: ${{ secrets.SIGN_ALIAS }}
+          keyStorePassword: ${{ secrets.SIGN_KEY_PASSWORD }}
+          keyPassword: ${{ secrets.SIGN_KEY_PASSWORD }}
+
+  build Debug APK:
+    runs-on: ubuntu-latest
+
+    outputs:
+      apk: ${{steps.sign_apk.outputs.signedReleaseFile}}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: "temurin"
+          java-version: "11"
+
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
+      - name: Clean project
+        run: ./gradlew clean
+
+      - name: Build Debug APK
+        run: ./gradlew :app:assembleDebug
+
+      - name: Sign APK
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/apk/debug
+          signingKeyBase64: ${{ secrets.SIGN_KEY }}
+          alias: ${{ secrets.SIGN_ALIAS }}
+          keyStorePassword: ${{ secrets.SIGN_KEY_PASSWORD }}
+          keyPassword: ${{ secrets.SIGN_KEY_PASSWORD }}
+
+  build Release APK:
+    runs-on: ubuntu-latest
+
+    outputs:
+      apk: ${{steps.sign_apk.outputs.signedReleaseFile}}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: "temurin"
+          java-version: "11"
+
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
+      - name: Clean project
+        run: ./gradlew clean
+
+      - name: Build Release APK
+        run: ./gradlew :app:assembleRelease
+
+      - name: Sign APK
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGN_KEY }}
+          alias: ${{ secrets.SIGN_ALIAS }}
+          keyStorePassword: ${{ secrets.SIGN_KEY_PASSWORD }}
+          keyPassword: ${{ secrets.SIGN_KEY_PASSWORD }}
+
+  Release:
+    needs: [build AAP, build Debug APK, build Release APK]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ${{needs.build_aap.outputs.aap}}
+            ${{needs.build_debug_apk.outputs.apk}}
+            ${{needs.build_release_apk.outputs.apk}}
