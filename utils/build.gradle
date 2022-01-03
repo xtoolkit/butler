@@ -49,4 +49,6 @@ dependencies {
     implementation androidx.lifecycle.runtime
 
     implementation material.material
+
+    implementation discord.overlappingPanels
 }
