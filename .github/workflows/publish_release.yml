@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  build AAP:
+  Build_AAP:
     runs-on: ubuntu-latest
 
     outputs:
@@ -42,7 +42,7 @@ jobs:
           keyStorePassword: ${{ secrets.SIGN_KEY_PASSWORD }}
           keyPassword: ${{ secrets.SIGN_KEY_PASSWORD }}
 
-  build Debug APK:
+  Build_Debug_APK:
     runs-on: ubuntu-latest
 
     outputs:
@@ -75,7 +75,7 @@ jobs:
           keyStorePassword: ${{ secrets.SIGN_KEY_PASSWORD }}
           keyPassword: ${{ secrets.SIGN_KEY_PASSWORD }}
 
-  build Release APK:
+  Build_Release_APK:
     runs-on: ubuntu-latest
 
     outputs:
@@ -109,7 +109,7 @@ jobs:
           keyPassword: ${{ secrets.SIGN_KEY_PASSWORD }}
 
   Release:
-    needs: [build AAP, build Debug APK, build Release APK]
+    needs: [Build_AAP, Build_Debug_APK, Build_Release_APK]
 
     runs-on: ubuntu-latest
 
