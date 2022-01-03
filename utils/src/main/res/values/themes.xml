@@ -1,0 +1,58 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.Shopping" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/ultramarine</item>
+        <item name="colorPrimaryVariant">@color/text_style_1</item>
+        <item name="colorOnPrimary">@color/panel</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/root</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="CenterPanel">
+        <item name="android:background">@drawable/layout_panel</item>
+        <item name="android:backgroundTint">@color/panel</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginBottom">@dimen/overlapping_panels_scroll_slop</item>
+    </style>
+
+    <style name="CenterPanelBackground">
+        <item name="android:background">@color/panel</item>
+    </style>
+
+    <style name="StartPanel" parent="CenterPanel">
+        <item name="android:layout_marginStart">@dimen/overlapping_panels_scroll_slop</item>
+    </style>
+
+    <style name="EndPanel" parent="CenterPanel">
+        <item name="android:layout_marginEnd">@dimen/overlapping_panels_scroll_slop</item>
+    </style>
+
+    <style name="PanelHeader">
+        <item name="android:textColor">@color/text_style_1</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ThemeSwitchIcon">
+        <item name="android:src">@drawable/ic_radoo_icon_moon</item>
+    </style>
+
+    <style name="ThemeSwitchText">
+        <item name="android:text">@string/dark</item>
+    </style>
+
+    <style name="FullSwitchLayoutItem">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="EditBoxInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/panel_2</item>
+        <item name="boxCornerRadiusBottomEnd">18dp</item>
+        <item name="boxCornerRadiusBottomStart">18dp</item>
+        <item name="boxCornerRadiusTopEnd">18dp</item>
+        <item name="boxCornerRadiusTopStart">18dp</item>
+    </style>
+</resources>

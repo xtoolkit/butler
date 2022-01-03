@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.shoplist.show.ShopListShowFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/page_title"
+            style="@style/PanelHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="35dp"
+            android:gravity="center_vertical"
+            android:text="@string/shopping_lists"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/theme_switch"
+            android:layout_width="80dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/layout_theme_switch"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/page_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/page_title">
+
+            <ImageView
+                android:id="@+id/moon"
+                style="@style/ThemeSwitchIcon"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:padding="7dp"
+                app:layout_constraintDimensionRatio="1, 1"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                style="@style/ThemeSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_style_1"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@id/moon" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/panel_bottom_panel"
+            app:layout_constraintTop_toBottomOf="@id/page_title"
+            tools:listitem="@layout/item_shoplist" />
+
+        <include
+            android:id="@+id/panel_bottom_panel"
+            layout="@layout/layout_panel_buttom_botton"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            app:btnIcon='@{"add"}'
+            app:btnTitle='@{"Add new list"}'
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:showBackground="@{true}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

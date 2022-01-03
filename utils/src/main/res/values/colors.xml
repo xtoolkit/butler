@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- // origin colors -->
+    <color name="ultramarine">#526DFE</color>
+    <color name="green">#1EAD8F</color>
+    <color name="background">#262545</color>
+
+    <!-- // day/night mode colors define -->
+    <color name="root">#FFFFFF</color>
+
+    <color name="panel">#F3F5F9</color>
+    <color name="panel_alt_1">#EAEDF1</color>
+    <color name="panel_alt_2">#D2D6DD</color>
+
+    <color name="panel_2">#FFFFFF</color>
+
+    <color name="text">#000000</color>
+    <color name="text_style_1">@color/background</color>
+    <color name="text_style_2">#E4E8FF</color>
+
+    <color name="button_style_1">@color/ultramarine</color>
+</resources>

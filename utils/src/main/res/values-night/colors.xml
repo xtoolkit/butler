@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="root">#0E0B2E</color>
+
+    <color name="panel">#1D1A3B</color>
+    <color name="panel_alt_1">@color/background</color>
+    <color name="panel_alt_2">#2F2B52</color>
+
+    <color name="panel_2">@color/background</color>
+
+    <color name="text">#FFFFFF</color>
+    <color name="text_style_1">#FFFFFF</color>
+    <color name="text_style_2">@color/ultramarine</color>
+
+    <color name="button_style_1">#E4E8FF</color>
+</resources>
