@@ -13,8 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      aap: ${{ steps.sign_aap.outputs.signedReleaseFile }}
-      url: ${{ steps.upload_release_aap.outputs }}
+      aap: ${{ steps.sign_app.outputs.signedReleaseFile }}
 
     steps:
       - uses: actions/checkout@v2
@@ -36,6 +35,7 @@ jobs:
 
       - name: Sign AAP
         uses: r0adkll/sign-android-release@v1
+        id: sign_app
         with:
           releaseDirectory: app/build/outputs/bundle/release
           signingKeyBase64: ${{ secrets.SIGN_KEY }}
@@ -43,17 +43,11 @@ jobs:
           keyStorePassword: ${{ secrets.SIGN_KEY_PASSWORD }}
           keyPassword: ${{ secrets.SIGN_KEY_PASSWORD }}
 
-      - name: Upload Release AAP
-        uses: actions/upload-artifact@v2
-        with:
-          name: apk-debug
-          path: ${{ steps.sign_aap.outputs.signedReleaseFile }}
-
   Build_Debug_APK:
     runs-on: ubuntu-latest
 
     outputs:
-      apk: ${{ steps.sign_apk.outputs.signedReleaseFile }}
+      apk: ${{ steps.sign_app.outputs.signedReleaseFile }}
 
     steps:
       - uses: actions/checkout@v2
@@ -75,6 +69,7 @@ jobs:
 
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
+        id: sign_app
         with:
           releaseDirectory: app/build/outputs/apk/debug
           signingKeyBase64: ${{ secrets.SIGN_KEY }}
@@ -86,7 +81,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      apk: ${{ steps.sign_apk.outputs.signedReleaseFile }}
+      apk: ${{ steps.sign_app.outputs.signedReleaseFile }}
 
     steps:
       - uses: actions/checkout@v2
@@ -108,6 +103,7 @@ jobs:
 
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
+        id: sign_app
         with:
           releaseDirectory: app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGN_KEY }}
