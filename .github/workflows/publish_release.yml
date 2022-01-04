@@ -12,9 +12,6 @@ jobs:
   Build_AAP:
     runs-on: ubuntu-latest
 
-    outputs:
-      aap: ${{ steps.sign_app.outputs.signedReleaseFile }}
-
     steps:
       - uses: actions/checkout@v2
 
@@ -43,11 +40,14 @@ jobs:
           keyStorePassword: ${{ secrets.SIGN_KEY_PASSWORD }}
           keyPassword: ${{ secrets.SIGN_KEY_PASSWORD }}
 
+      - name: Upload AAP
+        uses: actions/upload-artifact@v2
+        with:
+          name: aap-release
+          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
+
   Build_Debug_APK:
     runs-on: ubuntu-latest
-
-    outputs:
-      apk: ${{ steps.sign_app.outputs.signedReleaseFile }}
 
     steps:
       - uses: actions/checkout@v2
@@ -77,11 +77,14 @@ jobs:
           keyStorePassword: ${{ secrets.SIGN_KEY_PASSWORD }}
           keyPassword: ${{ secrets.SIGN_KEY_PASSWORD }}
 
+      - name: Upload Debug Apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk-debug
+          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
+
   Build_Release_APK:
     runs-on: ubuntu-latest
-
-    outputs:
-      apk: ${{ steps.sign_app.outputs.signedReleaseFile }}
 
     steps:
       - uses: actions/checkout@v2
@@ -111,6 +114,12 @@ jobs:
           keyStorePassword: ${{ secrets.SIGN_KEY_PASSWORD }}
           keyPassword: ${{ secrets.SIGN_KEY_PASSWORD }}
 
+      - name: Upload Release Apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk-release
+          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
+
   Release:
     needs: [Build_AAP, Build_Debug_APK, Build_Release_APK]
 
@@ -119,13 +128,25 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: export needs
-        run: echo ${{ needs.build_aap.outputs.url }}
+      - uses: actions/download-artifact@v2
+        with:
+          name: aap-release
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: apk-debug
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: apk-release
+
+      - name: Display structure of downloaded files
+        run: ls -R
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${{ needs.build_aap.outputs.aap }}
-            ${{ needs.build_debug_apk.outputs.apk }}
-            ${{ needs.build_release_apk.outputs.apk }}
+            app-release.aab
+            app-debug-signed.apk
+            app-release-unsigned-signed.apk
