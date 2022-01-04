@@ -117,7 +117,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: export needs
-        run: echo ${{ needs }} ${{ needs.build_aap }} ${{ needs.build_aap.outputs }} ${{ needs.build_aap.outputs.aap }}
+        run: mv ${{ needs.build_aap.outputs.aap }} . && ls -la
 
       - name: Release
         uses: softprops/action-gh-release@v1
