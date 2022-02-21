@@ -49,4 +49,4 @@ jobs:
           path: ${{ steps.sign_app.outputs.signedReleaseFile }}
 
       - name: Check files
-        run: ls
+        run: ls app/build/outputs/bundle/release
