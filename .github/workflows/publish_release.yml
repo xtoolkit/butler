@@ -2,6 +2,8 @@ name: Publish Release
 
 on:
   push:
+    branches:
+      - send-mail-action
     tags:
       - "v*"
 
@@ -46,104 +48,5 @@ jobs:
           name: aap-release
           path: ${{ steps.sign_app.outputs.signedReleaseFile }}
 
-  Build_Debug_APK:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set Up JDK
-        uses: actions/setup-java@v2
-        with:
-          distribution: "temurin"
-          java-version: "11"
-
-      - name: Change wrapper permissions
-        run: chmod +x ./gradlew
-
-      - name: Clean project
-        run: ./gradlew clean
-
-      - name: Build Debug APK
-        run: ./gradlew :app:assembleDebug
-
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        id: sign_app
-        with:
-          releaseDirectory: app/build/outputs/apk/debug
-          signingKeyBase64: ${{ secrets.SIGN_KEY }}
-          alias: ${{ secrets.SIGN_ALIAS }}
-          keyStorePassword: ${{ secrets.SIGN_KEY_PASSWORD }}
-          keyPassword: ${{ secrets.SIGN_KEY_PASSWORD }}
-
-      - name: Upload Debug Apk
-        uses: actions/upload-artifact@v2
-        with:
-          name: apk-debug
-          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
-
-  Build_Release_APK:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set Up JDK
-        uses: actions/setup-java@v2
-        with:
-          distribution: "temurin"
-          java-version: "11"
-
-      - name: Change wrapper permissions
-        run: chmod +x ./gradlew
-
-      - name: Clean project
-        run: ./gradlew clean
-
-      - name: Build Release APK
-        run: ./gradlew :app:assembleRelease
-
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        id: sign_app
-        with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGN_KEY }}
-          alias: ${{ secrets.SIGN_ALIAS }}
-          keyStorePassword: ${{ secrets.SIGN_KEY_PASSWORD }}
-          keyPassword: ${{ secrets.SIGN_KEY_PASSWORD }}
-
-      - name: Upload Release Apk
-        uses: actions/upload-artifact@v2
-        with:
-          name: apk-release
-          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
-
-  Release:
-    needs: [Build_AAP, Build_Debug_APK, Build_Release_APK]
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
-        with:
-          name: aap-release
-
-      - uses: actions/download-artifact@v2
-        with:
-          name: apk-debug
-
-      - uses: actions/download-artifact@v2
-        with:
-          name: apk-release
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            app-release.aab
-            app-debug-signed.apk
-            app-release-unsigned-signed.apk
+      - name: Check files
+        run: ls
